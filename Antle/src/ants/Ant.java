@@ -1,0 +1,80 @@
+package ants;
+
+import java.awt.Color;
+import java.util.Random;
+import java.util.Vector;
+
+import ants.ai.*;
+
+public class Ant extends Entity {
+	public JobManager jobManager;
+	Vector<AntListener> listeners;
+	static Random rand = new Random();
+	public Colony colony;
+	int scentID = Scent.ALLANTS;
+	float scentValue = 1;
+	public boolean isBeingAssisted = false, needsAssistance = false;
+	public Ant(Tile intile, Colony incolony) {
+		super(intile, incolony.map, Types.ANT);
+		colony = incolony;
+		listeners = new Vector<AntListener>();
+//		jobManager = new JobManager(new JobOldExplore(this, jobManager));
+		jobManager = new JobManager(new JobCollectFood(this, jobManager));
+		
+	}
+	public void addAntListener(AntListener inlistener) {
+		listeners.add(inlistener);
+	}
+	@Override
+	public boolean pickupItem(Item item) {
+		if (inv.addItem(item)) {
+			raiseEvent(new EventAntRecievedItem(this,this,item));
+			return true; 
+		}
+		return false;
+	}
+	@Override
+	public Color getColor() {
+		if(inv.items.size() != 0) {
+			Item firstItem = inv.items.get(0);
+			int r=(colony.color.getRed()+firstItem.color.getRed()*2)/3;
+			int g=(colony.color.getGreen()+firstItem.color.getGreen()*2)/3;
+			int b=(colony.color.getBlue()+firstItem.color.getBlue()*2)/3;
+			return new Color(r,g,b);
+		} else {
+			return colony.color;
+		}
+		
+	}
+	public void raiseEvent(EventAntCreated e) {
+		for(AntListener l : listeners) {
+			l.antCreated(e);
+		}
+	}
+	public void raiseEvent(EventAntDestroyed e) {
+		for(AntListener l : listeners) {
+			l.antDestroyed(e);
+		}
+	}
+	public void raiseEvent(EventAntFoundFriendInNeed e) {
+		for(AntListener l : listeners) {
+			l.antFoundFriendInNeed(e);
+		}
+	}
+	public void raiseEvent(EventAntJobChanged e) {
+		for(AntListener l : listeners) {
+			l.antChangedJobs(e);
+		}
+	}
+	public void raiseEvent(EventAntMoved e) {
+		for(AntListener l : listeners) {
+			l.antMoved(e);
+		}
+	}
+	public void raiseEvent(EventAntRecievedItem e) {
+		for(AntListener l : listeners) {
+			l.antRecievedItem(e);
+		}
+	}
+	
+}
