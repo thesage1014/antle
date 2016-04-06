@@ -4,8 +4,8 @@ import ants.*;
 
 public class JobCollectFood extends Job {
 
-	public JobCollectFood(Ant inant, JobManager injobManager) {
-		super(inant, injobManager);
+	public JobCollectFood(Ant inant) {
+		super(inant);
 		moveManager = new MoverFindFood(inant);
 	}
 	@Override

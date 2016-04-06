@@ -7,9 +7,9 @@ public class Job implements AntListener {
 	public MovementManager moveManager;
 	public JobManager jobManager;
 	Ant ant;
-	public Job(Ant inant, JobManager injobManager) {
+	public Job(Ant inant) {
 		ant = inant;
-		jobManager = injobManager;
+		jobManager = ant.jobManager;
 		inant.addAntListener(this);
 		moveManager = new MoverStandStill(inant);
 	}

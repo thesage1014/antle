@@ -11,15 +11,15 @@ public class Ant extends Entity {
 	Vector<AntListener> listeners;
 	static Random rand = new Random();
 	public Colony colony;
-	int scentID = Scent.ALLANTS;
-	float scentValue = 1;
+	public int scentID = Scent.ALLANTS;
+	public float scentValue = 1;
 	public boolean isBeingAssisted = false, needsAssistance = false;
 	public Ant(Tile intile, Colony incolony) {
 		super(intile, incolony.map, Types.ANT);
 		colony = incolony;
 		listeners = new Vector<AntListener>();
 //		jobManager = new JobManager(new JobOldExplore(this, jobManager));
-		jobManager = new JobManager(new JobCollectFood(this, jobManager));
+		jobManager = new JobManager(new JobCollectFood(this));
 		
 	}
 	public void addAntListener(AntListener inlistener) {

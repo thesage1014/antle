@@ -84,7 +84,7 @@ public final class AntsMap {
 				for(int y=0; y<h; y++) {
 					Tile curTile = tileMap[x][y];
 					Type tileType = curTile.getType();
-					Color tile = tileType.color;
+					Color tileColor = curTile.color;
 //				System.out.print(tileType.name + " " + heatMap[x+y*w]);
 //				System.out.println(tile.r + " " + tile.g + " " + tile.b);
 					if(tileType.isBreakable) {
@@ -92,9 +92,10 @@ public final class AntsMap {
 //					if(b != 1)
 //						System.out.print(" " + b + "\n");
 						r.setPixel(x, y, new int[]{
-								(int)(((float)tile.getRed()*b)+tile.getRed())/2,
-								(int)(((float)tile.getGreen()*b)+tile.getGreen())/2,
-								(int)((float)tile.getBlue()*b)});
+								(int)(((float)tileColor.getRed()*b)+tileColor.getRed())/2,
+								(int)(((float)tileColor.getGreen()*b)+tileColor.getGreen())/2,
+								(int)((float)tileColor.getBlue()*b)});
+						
 //						g.setColor(new Color(
 //								(int)(((float)tile.getRed()*b)+tile.getRed())/2,
 //								(int)(((float)tile.getGreen()*b)+tile.getGreen())/2,
@@ -111,9 +112,8 @@ public final class AntsMap {
 						}
 						
 					} else {
-						Color curColor = curTile.getType().color;
+						Color curColor = curTile.color;
 						r.setPixel(x, y, new int[]{curColor.getRed(), curColor.getGreen(), curColor.getBlue()});
-//						g.setColor(new Color(tile.getRed(),tile.getGreen(),tile.getBlue()));
 					}
 //					g.fillRect(x, y, 1, 1);
 				}
@@ -152,7 +152,7 @@ public final class AntsMap {
 				r.setPixel(x, y, new int[]{
 						Math.min(value,255),
 						Math.min(Math.max(value-256,0),255),
-						Math.min(Math.max(value-512,0),511)});
+						Math.min(Math.max(value-128,0),511)});
 			}
 		}
 		
@@ -196,7 +196,7 @@ public final class AntsMap {
 	}
 
 	public void tick() {
-//		blurMap();
+		blurMap();
 		world.antTick(this,pSM);
 		if(requestingImage) {
 			imageBuffer = buildImage();
@@ -204,9 +204,30 @@ public final class AntsMap {
 	}
 
 	private void blurMap() {
-//		for(int x=0, x<w, x++) {
-//			
-//		}
+		for(Scent s:scents) {
+			for(int i=0;i<(w*h)/pSM.getGlobal().scentBlurSpeed.value;i++) {
+				int blurx = rand.nextInt(w-3);
+				int blury = rand.nextInt(h-3);
+				int totalScent = 0;
+//				totalScent += (int)s.values[blurx+1][blury];
+				totalScent += (int)s.values[blurx+1][blury+1];
+				totalScent += (int)s.values[blurx+2][blury+1];
+//				totalScent += (int)s.values[blurx+3][blury+1];
+//				totalScent += (int)s.values[blurx][blury+2];
+				totalScent += (int)s.values[blurx+1][blury+2];
+				totalScent += (int)s.values[blurx+2][blury+2];
+//				totalScent += (int)s.values[blurx+2][blury+3];
+				totalScent = (totalScent)/4;
+//				s.values[blurx+1][blury] = (s.values[blurx+1][blury]+totalScent)/2;
+				s.values[blurx+1][blury+1] = (s.values[blurx+1][blury+1]+totalScent)/2;
+				s.values[blurx+2][blury+1] = (s.values[blurx+2][blury+1]+totalScent)/2;
+//				s.values[blurx+3][blury+1] = (s.values[blurx+3][blury+1]+totalScent)/2;
+//				s.values[blurx][blury+2] = (s.values[blurx][blury+2]+totalScent)/2;
+				s.values[blurx+1][blury+2] = (s.values[blurx+1][blury+2]+totalScent)/2;
+				s.values[blurx+2][blury+2] = (s.values[blurx+2][blury+2]+totalScent)/2;
+//				s.values[blurx+2][blury+3] = (s.values[blurx+2][blury+3]+totalScent)/2;
+			}
+		}
 	}
 
 	public void addColony(Colony incolony) {
@@ -224,3 +245,4 @@ public final class AntsMap {
 		erosionMap[x+w*y] = type;
 	}
 }
+

@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.util.Random;
 import java.util.Vector;
 
+import ants.ai.JobBeStinky;
+
 public class MapGenerator {
 	public MapGenerator() {
 		
@@ -23,8 +25,9 @@ public class MapGenerator {
 				if(rockNoise > ps.stoneLayerCutoff.value) {
 					map.get(x, y).setTo(Types.STONE);
 				} else if(curNoise > ps.earthDensity.value) {
-					
 					map.get(x, y).setTo(Types.DIRT);
+					Color dirtColor = new Color((int)(-curNoise*25+51),(int)(-curNoise*15)+41,(int)(-curNoise*5+15));
+					map.get(x, y).color = dirtColor;
 				} else {
 //					if(rand.nextInt(ps.foodSpawnAmount.i()) == 0) {
 //						map.get(x, y).setTo(Types.FOOD);
@@ -64,6 +67,8 @@ public class MapGenerator {
 						colony.addAnt(x,y);
 				}
 			}
+			Ant stinkyAnt = colony.ants.get(0);
+			stinkyAnt.jobManager.setJob(colony, new JobBeStinky(stinkyAnt));
 		}
 		
 	}

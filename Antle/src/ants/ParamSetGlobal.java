@@ -5,7 +5,7 @@ import java.util.Vector;
 
 public final class ParamSetGlobal extends ParamSet {
 	public Param mapW, mapH, displayW, displayH, tickDelay, earthDensity, stoneLayerCutoff, earthNoiseScale, renderTickDelay, 
-			erosionPerStep, antBehavior, antSpawnBoxSize, numColonies, foodSpawnAmount;
+			erosionPerStep, antBehavior, antSpawnBoxSize, numColonies, foodSpawnAmount, scentBlurSpeed;
 	public ParamSetGlobal() {
 		name = "Global";
 		ArrayList<Param> arrayQueue = new ArrayList<Param>();
@@ -23,6 +23,7 @@ public final class ParamSetGlobal extends ParamSet {
 		arrayQueue.add(antSpawnBoxSize		= new Param(false,	false,	false,	4,		150,		60,				"Ant spawn box size"));
 		arrayQueue.add(numColonies			= new Param(false,	false,	false,	0,		8,			2,				"Number of colonies"));
 		arrayQueue.add(foodSpawnAmount		= new Param(false,	false,	false,	1,		-1,			.5,				"Food spawn amount"));
+		arrayQueue.add(scentBlurSpeed		= new Param(false,	false,	false,	1000,	10,			100,			"Scent blur speed"));
 		
 		params = (Param[]) arrayQueue.toArray(new Param[arrayQueue.size()]);
 	}
