@@ -10,6 +10,8 @@ public abstract class MovementManager {
 	Colony colony;
 	AntsMap map;
 	Random rand;
+	float[][] DEBUGscentMap = new float[5][5];
+	
 	public MovementManager(Ant inant) {
 		ant = inant;
 		colony = inant.colony;
@@ -23,9 +25,8 @@ public abstract class MovementManager {
 			ant.raiseEvent(new EventAntMoved(this, ant, tile));
 		}
 	}
-	abstract boolean beMoved();
+	abstract boolean beMoved(); // returns weather or not move was successful
 	public boolean canMove(int x, int y) {
-//		return (ant.x == x && ant.y == y);
 		return false;
 	}
 //	LocalScanResults scanAdjacentTiles() { // Remove eventually if unused
@@ -65,18 +66,19 @@ public abstract class MovementManager {
 	Float3D[][] scanForScent() {
 		int antx = ant.tile.x;
 		int anty = ant.tile.y;
-		
 		Float3D[][] scan = new Float3D[6][5]; // Highest and lowest tiles are stored in the very right column
 		
 		Vector<Float3D> highests = new Vector<Float3D>();
 		Vector<Float3D> lowests = new Vector<Float3D>();
 		Float3D highest = new Float3D(-1,-1,-1);
-		Float3D lowest = new Float3D(9999999,9999999,9999999);
-		for(int x=antx-2;x<=antx+2;x++) {
-			for(int y=anty-2;y<=anty+2;y++) {
+		Float3D lowest = new Float3D(Float.MAX_VALUE,Float.MAX_VALUE,Float.MAX_VALUE);
+		//This stores scan[0][0] ... scan[4][4]
+		int scanWidth = 2;
+		for(int x=antx-scanWidth;x<=antx+scanWidth;x++) {
+			for(int y=anty-scanWidth;y<=anty+scanWidth;y++) {
 				float value = ant.colony.scent.values[x][y];
-				scan[x-antx+2][y-anty+2] = new Float3D(x,y,value);
-				if(x != ant.tile.x && y != ant.tile.y) {// old stone omit code map.get(x, y).getType().maxHealth<Types.STONE.maxHealth
+				DEBUGscentMap[x-antx+scanWidth][y-anty+scanWidth] = value;
+				scan[x-antx+scanWidth][y-anty+scanWidth] = new Float3D(x,y,value);
 					if(value > highest.z) {
 						highests.clear();
 						highest.x = x;
@@ -95,10 +97,10 @@ public abstract class MovementManager {
 					} else if(value == lowest.z) {
 						lowests.add(new Float3D(x,y,value));
 					}
-				}
 				
 			}
 		}
+		//These are scan[5][0](highest) ... scan[5][1](lowest)
 		Random rand = new Random();
 		if(highest.x == -1) {
 			int sx = rand.nextInt(3) + antx -1;
@@ -107,7 +109,7 @@ public abstract class MovementManager {
 		} else {
 			scan[5][0] = highests.get(rand.nextInt(highests.size()));
 		}
-		if(lowest.x == 9999999) {
+		if(lowest.x == Float.MAX_VALUE) {
 			int sx = rand.nextInt(3) + antx -1;
 			int sy = rand.nextInt(3) + anty -1;
 			scan[5][1] = new Float3D(sx,sy,ant.colony.scent.values[sx][sy]);
@@ -165,14 +167,13 @@ public abstract class MovementManager {
 //		int y = (int) Math.min(Math.max(Math.round(Math.sin(ang))*1.5,1),-1)+ant.tile.y;
 		int x = (Math.min(Math.max(dx-ant.tile.x,-1),1))+ant.tile.x;
 		int y = (Math.min(Math.max(dy-ant.tile.y,-1),1))+ant.tile.y;
-//		System.out.println(x + " " + (x-dx) + " | " + y + " " + (y-dy));
 		return tryMove(x,y);
 	}
 	boolean tryMove(int dx, int dy) { // Returns weather or not the move was successful
 		int x = ant.tile.x;
 		int y = ant.tile.y;
-//		System.out.println(Math.abs(y-dy));
-		if (Math.abs(x-dx) < 2 && Math.abs(y-dy) < 2) {
+//		System.out.println(Math.abs(x-dx) + " " + dx + " " + x + " " + Math.abs(y-dy) + " " + dy + " " + y);
+		if (Math.abs(x-dx) <= 1 && Math.abs(y-dy) <= 1) {
 			if(map.get(dx,dy).getType() == Types.EMPTY) {
 				if(map.get(dx,dy).setToEntity(ant)) {
 					map.get(x,y).clear();
