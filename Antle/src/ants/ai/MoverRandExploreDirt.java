@@ -33,7 +33,7 @@ public class MoverRandExploreDirt extends MovementManager {
 		}
 		int nx = ant.tile.x+dirx;
 		int ny = ant.tile.y+diry;
-		map.erode(nx, ny, ant);
+		map.attackBlock(nx, ny, ant);
 		return tryMove(nx,ny);
 	}
 	

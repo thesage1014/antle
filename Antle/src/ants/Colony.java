@@ -10,18 +10,18 @@ public class Colony {
 	public ParamSetColony params;
 	Vector<Ant> ants;
 	public AntsMap map;
-	public Color color;
+	public int[] color;
 	public String name;
 	public Scent scent;
 	public int x,y;
-	public Colony(ParamSetManager inpSM, int inx, int iny, String inname, AntsMap inmap, Color incolor) {
+	public Colony(ParamSetManager inpSM, int inx, int iny, String inname, AntsMap inmap, int[] incolor, int inscentIndex) {
 		pSM = inpSM;
 		name = inname;
 		params = new ParamSetColony(this);
 		pSM.addParamSet(params);
 		map = inmap;
 		color = incolor;
-		scent = new Scent(name,this,Scent.ALLANTS,map.w,map.h);
+		scent = new Scent(name,incolor,inscentIndex,map.w,map.h);
 		ants = new Vector<Ant>();
 	}
 	public void addAnt(int x, int y) {

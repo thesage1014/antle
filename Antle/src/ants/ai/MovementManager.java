@@ -174,7 +174,7 @@ public abstract class MovementManager {
 					return true;
 				}
 			}
-			map.erode(dx,dy,ant);
+			map.attackBlock(dx,dy,ant);
 		} else {
 			System.out.println(x + " " + (x-dx) + " | " + y + " " + (y-dy));
 		}

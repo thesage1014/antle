@@ -59,7 +59,7 @@ public class MapGenerator {
 		for(int i=0;i<inpSM.getGlobal().numColonies.i();i++) {
 			int antSpawnBoxSize = ps.antSpawnBoxSize.i();
 			int distX = map.w/(inpSM.getGlobal().numColonies.i()+1)*(i+1);
-			map.addColony(new Colony(inpSM, distX, map.h/2, Names.getName(), map, new Color(rand.nextInt(255),rand.nextInt(255),rand.nextInt(255)))); // TODO Ant indexes need to be applied properly in the map
+			map.addColony(inpSM, distX, map.h/2, Names.getName(), new int[] {rand.nextInt(255),rand.nextInt(255),rand.nextInt(255)}); // TODO Ant indexes need to be applied properly in the map
 			Colony colony = map.colonies.get(i);
 			for(int x=distX-map.w/antSpawnBoxSize;x<distX+map.w/antSpawnBoxSize;x++) {
 				for(int y=map.h/2-map.h/antSpawnBoxSize;y<map.h/2+map.h/antSpawnBoxSize;y++) {

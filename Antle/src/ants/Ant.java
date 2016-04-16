@@ -11,12 +11,13 @@ public class Ant extends Entity {
 	Vector<AntListener> listeners;
 	static Random rand = new Random();
 	public Colony colony;
-	public int scentID = Scent.ALLANTS;
+	public Scent scent;
 	public float scentValue = 2;
 	public boolean isBeingAssisted = false, needsAssistance = false;
 	public Ant(Tile intile, Colony incolony) {
 		super(intile, incolony.map, Types.ANT);
 		colony = incolony;
+		scent = colony.scent;
 		listeners = new Vector<AntListener>();
 //		jobManager = new JobManager(new JobOldExplore(this, jobManager));
 		jobManager = new JobManager(new JobCollectFood(this));
@@ -34,17 +35,16 @@ public class Ant extends Entity {
 		return false;
 	}
 	@Override
-	public Color getColor() {
+	public int[] getColor() {
 		if(inv.items.size() != 0) {
 			Item firstItem = inv.items.get(0);
-			int r=(colony.color.getRed()+firstItem.color.getRed()*2)/3;
-			int g=(colony.color.getGreen()+firstItem.color.getGreen()*2)/3;
-			int b=(colony.color.getBlue()+firstItem.color.getBlue()*2)/3;
-			return new Color(r,g,b);
+			int r=(colony.color[0]+firstItem.color.getRed()*2)/3;
+			int g=(colony.color[1]+firstItem.color.getGreen()*2)/3;
+			int b=(colony.color[2]+firstItem.color.getBlue()*2)/3;
+			return new int[]{r,g,b};
 		} else {
 			return colony.color;
 		}
-		
 	}
 	public void raiseEvent(EventAntCreated e) {
 		for(AntListener l : listeners) {

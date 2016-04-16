@@ -27,7 +27,7 @@ public abstract class Entity {
 	public boolean pickupItem(Item item) {
 		return inv.addItem(item);
 	}
-	public Color getColor() {
-		return new Color(0);
+	public int[] getColor() {
+		return new int[]{};
 	}
 }
