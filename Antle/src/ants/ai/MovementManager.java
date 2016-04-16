@@ -77,7 +77,6 @@ public abstract class MovementManager {
 		for(int x=antx-scanWidth;x<=antx+scanWidth;x++) {
 			for(int y=anty-scanWidth;y<=anty+scanWidth;y++) {
 				float value = ant.colony.scent.values[x][y];
-				DEBUGscentMap[x-antx+scanWidth][y-anty+scanWidth] = value;
 				scan[x-antx+scanWidth][y-anty+scanWidth] = new Float3D(x,y,value);
 					if(value > highest.z) {
 						highests.clear();
@@ -119,27 +118,22 @@ public abstract class MovementManager {
 		return scan;
 	}
 	
-	int[] scanForType(int inType) { // Returns an array of indexes that correspond to x values in Util.dirs8. Y values are index+1
-		boolean[] passable = new boolean[8];
-		int passableSpaces = 0;
-		for (int i=0; i<8; i++) {
-			if (map.get(Util.dirs8[i*2]+ant.tile.x, Util.dirs8[i*2+1]+ant.tile.y).getType().ID == inType) {
-				passable[i] = true;
-				passableSpaces++;
-			}
-		}
-		int[] isPassable = new int[passableSpaces];
-		if(passableSpaces != 0) {
-			int curIsIndex = 0;
-			for(int i=0; i<8; i++) {
-				if(passable[i]) {
-					isPassable[curIsIndex] = i*2;
-					curIsIndex++;
+	Tile[] scanForType(int inType) {
+		Vector<Tile> tiles = new Vector<Tile>();
+		Tile scannedTile;
+		for(int x=ant.tile.x-1; x<ant.tile.x+1; x++) {
+			for(int y=ant.tile.y-1; y<ant.tile.y+1; y++) {
+				scannedTile = map.get(x, y);
+				if(scannedTile.getType().ID == inType) {
+					tiles.add(scannedTile);
 				}
 			}
 		}
-		return isPassable;
+		Tile[] result = new Tile[tiles.size()];
+		tiles.toArray(result);
+		return result;
 	}
+	
 	int[] oldScanForType(int inType) { // Returns an array of indexes that correspond to x values in Util.dirs8. Y values are index+1
 		boolean[] passable = new boolean[8];
 		int passableSpaces = 0;

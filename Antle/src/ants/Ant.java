@@ -12,7 +12,7 @@ public class Ant extends Entity {
 	static Random rand = new Random();
 	public Colony colony;
 	public int scentID = Scent.ALLANTS;
-	public float scentValue = 10;
+	public float scentValue = 2;
 	public boolean isBeingAssisted = false, needsAssistance = false;
 	public Ant(Tile intile, Colony incolony) {
 		super(intile, incolony.map, Types.ANT);

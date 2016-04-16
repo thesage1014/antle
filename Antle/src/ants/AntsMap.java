@@ -136,23 +136,46 @@ public final class AntsMap {
 	public BufferedImage getScentImage() {
 		BufferedImage image = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
 		WritableRaster r = image.getRaster();
-		float[][] totes = new float[w][h];
+		float[][] totals = new float[w][h];
+		float[][] hues = new float[w][h];
 		for(int i=0;i<scents.size();i++) {
 			Scent s = scents.get(i);
 			for(int x=0;x<w;x++) {
 				for(int y=0;y<h;y++) {
-					totes[x][y] += s.values[x][y];
+					totals[x][y] += s.values[x][y];
+					if(s.values[x][y] != 0) {
+//						if(s.values[x][y] < totals[x][y]) {
+//							float hueTotal = s.getHue();
+//							for(int j=0; j<i; j++) {
+//								hueTotal += scents.get(i).getHue(); 
+//							}
+//							hues[x][y] = hueTotal;
+//						} else {
+//						}
+						hues[x][y] = s.getHue();
+					}
 				}				
 			}
 		}
 		
 		for(int x=0;x<w;x++) {
 			for(int y=0;y<h;y++) {
-				int value = (int)totes[x][y];
-				r.setPixel(x, y, new int[]{
-						Math.min(value,255),
-						Math.min(Math.max(value-256,0),255),
-						Math.min(Math.max(value-128,0),511)});
+				float value = (int)totals[x][y];
+				if(value == 0) {
+					value = .1f;
+				} else {
+					value = (1-1/value);
+				}
+				int hsb = Color.HSBtoRGB(hues[x][y], 1f, value);
+				int[] rgb = new int[] {
+					(hsb >> 16) & 0xFF,
+					(hsb >> 8) & 0xFF,
+					hsb & 0xFF
+				};
+				r.setPixel(x, y, rgb);
+//						Math.min(value,255),
+//						Math.min(Math.max(value-256,0),255),
+//						Math.min(Math.max(value-128,0),511)});
 			}
 		}
 		
