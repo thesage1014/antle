@@ -1,17 +1,27 @@
 package ants;
 
 public class Param {
+	public static final int SLIDER = 0, TOGGLE = 1, LIST = 2, BUTTON = 3; // option types
 	public String name = "Unnamed";
 	public double min, max, start, value;
-	public final boolean isToggleOnly, isReadOnly;
-	public Param(boolean inIsCheckbox, boolean isDropDown, boolean inReadOnly, double inMin, double inMax, double inStart, String inName) {
-		isToggleOnly = inIsCheckbox;
+	public final boolean isReadOnly;
+	public final int type;
+	public Param(int intype, boolean inReadOnly, double inMin, double inMax, double inStart, String inName) {
 		isReadOnly = inReadOnly;
+		type = intype;
 		min = inMin;
 		max = inMax;
 		start = inStart;
 		name = inName;
 		value = inStart;
+	}
+	public boolean buttonPressed() {
+		if(value != 0) {
+			value = 0;
+			return true;
+		}
+		value = 0;
+		return false;
 	}
 	public void reset() {
 		value = start;
@@ -19,7 +29,7 @@ public class Param {
 	public int i() {
 		return (int)value;
 	}
-	public boolean b() {
+	public boolean bool() {
 		return value == 1;
 	}
 	public void toggle() {

@@ -19,8 +19,7 @@ public class Ant extends Entity {
 		colony = incolony;
 		scent = colony.scent;
 		listeners = new Vector<AntListener>();
-//		jobManager = new JobManager(new JobOldExplore(this, jobManager));
-		jobManager = new JobManager(new JobCollectFood(this));
+		jobManager = new JobManager(this);
 		
 	}
 	public void addAntListener(AntListener inlistener) {
@@ -30,7 +29,7 @@ public class Ant extends Entity {
 	public boolean pickupItem(Item item) {
 		if (inv.addItem(item)) {
 			raiseEvent(new EventAntRecievedItem(this,this,item));
-			return true; 
+			return true;
 		}
 		return false;
 	}

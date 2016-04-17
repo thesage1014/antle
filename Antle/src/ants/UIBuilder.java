@@ -54,17 +54,17 @@ public class UIBuilder implements MouseInputListener, MouseWheelListener, KeyEve
 					uig.setColor(new Color(163,138,130));
 				else 
 					uig.setColor(new Color(163,72,44));
-				if(curParam.isToggleOnly) {
+				if(curParam.type == Param.TOGGLE) {
 					uig.fillRect(10,i*50+10,180,40);
 					uig.setColor(new Color(255,255,255));
 					uig.fillRect(160,i*50+20,20,20);
-					if(curParam.b()) {
+					if(curParam.bool()) {
 						uig.setColor(new Color(0,0,0));
 						uig.fillRect(165,i*50+25,10,10);
 					}
 					uig.setColor(new Color(255,255,255));
 					uig.drawString(curParam.name, 20, i*50+35);
-					uig.drawString(curParam.b() + "", 205, i*50+35);
+					uig.drawString(curParam.bool() + "", 205, i*50+35);
 				} else {
 					double relativeItemWidth = (curParam.value-curParam.min)/(curParam.max-curParam.min)*180;
 					uig.fillRect(10,i*50+10,(int)relativeItemWidth,40);
@@ -86,11 +86,13 @@ public class UIBuilder implements MouseInputListener, MouseWheelListener, KeyEve
 		ParamSet ps = pSM.getParamSet(currentParamSet);
 		if(showingMenu) {
 			if(e.getID() == MouseEvent.MOUSE_PRESSED) {
-				mouseDown = true;
+				if(e.getButton() == MouseEvent.BUTTON1)
+					mouseDown = true;
 			} else if(e.getID() == MouseEvent.MOUSE_RELEASED) {
-				mouseDown = false;
+				if(e.getButton() == MouseEvent.BUTTON1)
+					mouseDown = false;
 			}
-			if((e.getButton() == MouseEvent.BUTTON1) || mouseDown) {
+			if(((e.getButton() == MouseEvent.BUTTON1) || mouseDown)) {
 				if(e.getX()<50 && e.getY()/50 < pSM.getParamSets().size()) {
 					currentParamSet = e.getY()/50;
 					psPanelScrollY = 0;
@@ -105,7 +107,7 @@ public class UIBuilder implements MouseInputListener, MouseWheelListener, KeyEve
 						if(curParam.isReadOnly) return;
 						double cappedX = x>190?190:x;
 						double adjustedX = 0;
-						if(curParam.isToggleOnly) {
+						if(curParam.type == Param.TOGGLE) {
 							if(e.getID() == MouseEvent.MOUSE_RELEASED) {
 								curParam.toggle();
 							}

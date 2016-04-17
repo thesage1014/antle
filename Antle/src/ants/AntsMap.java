@@ -216,19 +216,14 @@ public final class AntsMap {
 
 	private void blurMap() {
 		for(Scent s:scents) {
-			for(int i=0;i<(w*h)/pSM.getGlobal().scentBlurSpeed.value/2;i++) { // Square pattern blur droplets
-				int blurx = rand.nextInt(w-3);
-				int blury = rand.nextInt(h-3);
-				int totalScent = 0;
-				totalScent += (int)s.values[blurx+1][blury+1];
-				totalScent += (int)s.values[blurx+2][blury+1];
-				totalScent += (int)s.values[blurx+1][blury+2];
-				totalScent += (int)s.values[blurx+2][blury+2];
-				totalScent = (totalScent)/4;
-				s.values[blurx+1][blury+1] = (s.values[blurx+1][blury+1]+totalScent)/2;
-				s.values[blurx+2][blury+1] = (s.values[blurx+2][blury+1]+totalScent)/2;
-				s.values[blurx+1][blury+2] = (s.values[blurx+1][blury+2]+totalScent)/2;
-				s.values[blurx+2][blury+2] = (s.values[blurx+2][blury+2]+totalScent)/2;
+			for(int x=0; x<w; x++) {
+				for(int y=0; y<h; y++) {
+					if(tileMap[x][y].getType().isSolid) {
+						s.values[x][y] *= .99f;
+					} else {
+						s.values[x][y] *= .995f;
+					}
+				}
 			}
 			for(int i=0;i<(w*h)/pSM.getGlobal().scentBlurSpeed.value/2;i++) { // Cross pattern blur droplets
 				int blurx = rand.nextInt(w-3)+1;
@@ -245,6 +240,32 @@ public final class AntsMap {
 				s.values[blurx+1][blury] = (s.values[blurx+1][blury]+totalScent)/2;
 				s.values[blurx][blury-1] = (s.values[blurx][blury-1]+totalScent)/2;
 				s.values[blurx][blury+1] = (s.values[blurx][blury+1]+totalScent)/2;
+			}
+			for(int i=0;i<(w*h)/pSM.getGlobal().scentBlurSpeed.value/2;i++) { // Square pattern blur droplets
+				int blurx = rand.nextInt(w-3);
+				int blury = rand.nextInt(h-3);
+				float totalScent = 0;
+				int openSpaces = 0;
+				for(int tx=0; tx<2; tx++) {
+					for(int ty=0; ty<2; ty++) {
+						if(!tileMap[blurx+tx][blury+ty].getType().isSolid) {
+							openSpaces++;
+						}
+						totalScent += s.values[blurx+tx][blury+ty];
+					}					
+				}
+				totalScent = totalScent/openSpaces;
+				for(int tx=0; tx<2; tx++) {
+					for(int ty=0; ty<2; ty++) {
+						if(openSpaces != 0) {
+							if(!tileMap[blurx+tx][blury+ty].getType().isSolid) {
+								s.values[blurx+tx][blury+ty] = totalScent;
+							} else {
+								s.values[blurx+tx][blury+ty] = 0;
+							}
+						}
+					}					
+				}
 			}
 		}
 	}

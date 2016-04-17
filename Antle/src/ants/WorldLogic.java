@@ -13,7 +13,7 @@ public final class WorldLogic {
 		ParamSetGlobal ps = (ParamSetGlobal)inpSM.getParamSet(0);
 		if(backwardTick) {
 			for(int i=map.colonies.size()-1;i>=0;i--) {
-				map.colonies.get(i).moveAnts();
+				map.colonies.get(i).tickAnts();
 			}
 			for(int x=map.w-1;x>=0;x--) {
 				for(int y=map.h-1;y>=0;y--) {
@@ -22,7 +22,7 @@ public final class WorldLogic {
 			}
 		} else {
 			for(int i=0;i<map.colonies.size();i++) {
-				map.colonies.get(i).moveAnts();
+				map.colonies.get(i).tickAnts();
 			}
 			for(int x=0;x<map.w;x++) {
 				for(int y=0;y<map.h;y++) {

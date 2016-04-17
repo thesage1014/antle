@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.util.Random;
 import java.util.Vector;
 
+import ants.ai.JobCollectFood;
+
 
 public class Colony {
 	ParamSetManager pSM;
@@ -31,11 +33,16 @@ public class Colony {
 			ants.add(newAnt);
 		}
 	}
-	public void moveAnts() {
+	public void tickAnts() {
+		if(params.allFindFood.buttonPressed()) {
+			for(Ant a: ants) {
+				a.jobManager.setJob(this, new JobCollectFood(a));
+			}
+		}
 		Random rand = new Random();
 		for(Ant a: ants) {
 			if(rand.nextFloat() < a.inv.slownessTotal) {
-				a.jobManager.job.moveManager.move();
+				a.jobManager.moveAnt();
 			}
 		}
 	}
