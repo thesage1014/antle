@@ -10,7 +10,7 @@ public class Tile {
 	public Tile(int inx, int iny) {
 		x = inx;
 		y = iny;
-		type = Types.EMPTY;
+		type = TileTypes.EMPTY;
 		resetColor();
 	}
 	void resetColor() {
@@ -47,6 +47,6 @@ public class Tile {
 		return entity;
 	}
 	public void clear() {
-		setTo(Types.EMPTY);
+		setTo(TileTypes.EMPTY);
 	}
 }

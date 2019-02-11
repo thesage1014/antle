@@ -3,7 +3,7 @@ package ants;
 import java.awt.Color;
 
 
-public final class Types {
+public final class TileTypes {
 	private final static Type[] types = new Type[] {
 //				ID,Name			,isSolid,isEntiy,breakable,givesItem,MaxHP,color						,Item on break
 		new TypeEmpty		(),

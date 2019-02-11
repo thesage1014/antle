@@ -37,11 +37,11 @@ public final class WorldLogic {
 	void tickOperations(AntsMap map, int x, int y, Random rand, int antCount, ParamSetManager inpSH) {
 		Tile tile = map.get(x, y);
 		antCount = 0;
-		if(tile.getType() == Types.ANT && map.get(x, y).getEntity() instanceof Ant) {
+		if(tile.getType() == TileTypes.ANT && map.get(x, y).getEntity() instanceof Ant) {
 			antCount++;
 			map.layScent((Ant) map.get(x, y).getEntity());
-		} else if(tile.getType() == Types.FOOD) {
-			map.layScent(x,y,map.scents.get(Scent.FOODindex),Types.FOOD.scentValue);
+		} else if(tile.getType() == TileTypes.FOOD) {
+			map.layScent(x,y,map.scents.get(Scent.FOODindex),TileTypes.FOOD.scentValue);
 		}
 //		System.out.println("asdfASDFSDF");
 //		if (map.getOld(x, y) == Type.ant) {

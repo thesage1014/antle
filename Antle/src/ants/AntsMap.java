@@ -182,13 +182,13 @@ public final class AntsMap {
 					if(eroder.pickupItem(blockType.itemOnBreak)) {
 						erosionMap[x+y*w] = 0;
 						if(x>1 && x<w-2 && y>1 && y< h-2) {
-							get(x,y).setTo(Types.EMPTY);
+							get(x,y).setTo(TileTypes.EMPTY);
 						}
 					}
 				} else {
 					erosionMap[x+y*w] = 0;
 					if(x>1 && x<w-2 && y>1 && y< h-2) {
-						get(x,y).setTo(Types.EMPTY);
+						get(x,y).setTo(TileTypes.EMPTY);
 					}
 				}
 			} else {

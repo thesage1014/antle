@@ -50,7 +50,7 @@ public final class AntsPanel extends JPanel implements Tickable, MouseListener, 
 			g2.drawImage(map.getImage(), 0, 0, ps.displayW.i(), ps.displayH.i(), this);
 			Composite tempComposite = g2.getComposite();
 //			g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC);
-//			g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);
+			g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);
 //			g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, .1f));
 //			g2.drawImage(map.getHeatImage(), 0, 0, ps.displayW.i(), ps.displayH.i(), this);
 			g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, .7f));
@@ -126,13 +126,11 @@ public final class AntsPanel extends JPanel implements Tickable, MouseListener, 
 	
 	@Override
 	public void mouseEntered(MouseEvent arg0) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void mouseExited(MouseEvent arg0) {
-		// TODO Auto-generated method stub
 		
 	}
 

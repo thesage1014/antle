@@ -19,11 +19,13 @@ public abstract class MovementManager {
 		rand = new Random();
 	}
 	
-	public final void move() {
+	public final boolean move() {
 		Tile tile = ant.tile;
-		if(beMoved()) {
+		boolean moved = beMoved();
+		if(moved) {
 			ant.raiseEvent(new EventAntMoved(this, ant, tile));
 		}
+		return moved;
 	}
 	abstract boolean beMoved(); // returns weather or not move was successful
 	public boolean canMove(int x, int y) {
@@ -168,7 +170,7 @@ public abstract class MovementManager {
 		int y = ant.tile.y;
 //		System.out.println(Math.abs(x-dx) + " " + dx + " " + x + " " + Math.abs(y-dy) + " " + dy + " " + y);
 		if (Math.abs(x-dx) <= 1 && Math.abs(y-dy) <= 1) {
-			if(map.get(dx,dy).getType() == Types.EMPTY) {
+			if(map.get(dx,dy).getType() == TileTypes.EMPTY) {
 				if(map.get(dx,dy).setToEntity(ant)) {
 					map.get(x,y).clear();
 					return true;

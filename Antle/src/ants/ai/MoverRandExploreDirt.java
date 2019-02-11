@@ -3,7 +3,7 @@ package ants.ai;
 import java.util.Random;
 
 import ants.Ant;
-import ants.Types;
+import ants.TileTypes;
 import ants.Util;
 
 public class MoverRandExploreDirt extends MovementManager {
@@ -21,10 +21,10 @@ public class MoverRandExploreDirt extends MovementManager {
 			int dirIndex2 = rand.nextInt(8)*2;
 			int dirx2 = Util.dirs8[dirIndex2];
 			int diry2 = Util.dirs8[dirIndex2+1];
-			if(ant.inv.slownessTotal == 1 && map.get(ant.tile.x+dirx2, ant.tile.y+diry2).getType() == Types.FOOD) {
+			if(ant.inv.slownessTotal == 1 && map.get(ant.tile.x+dirx2, ant.tile.y+diry2).getType() == TileTypes.FOOD) {
 				dirx = dirx2;
 				diry = diry2;
-			} else if(map.get(ant.tile.x+dirx2, ant.tile.y+diry2).getType() == Types.DIRT) {
+			} else if(map.get(ant.tile.x+dirx2, ant.tile.y+diry2).getType() == TileTypes.DIRT) {
 				if(colony.params.dirtExplorationPreference.value > rand.nextDouble() ) {
 					dirx = dirx2;
 					diry = diry2;

@@ -11,7 +11,7 @@ public class MoverOldFindFood extends MovementManager {
 	}
 	@Override
 	boolean beMoved() {
-		int[] surroundings = oldScanForType(Types.FOOD.ID);
+		int[] surroundings = oldScanForType(TileTypes.FOOD.ID);
 		
 		Float3D[][] scentScan = scanForScent();
 //		System.out.println(map.get((int)scan[5][1].x, (int)scan[5][1].y).getType().name);

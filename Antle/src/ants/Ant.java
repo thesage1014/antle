@@ -15,7 +15,7 @@ public class Ant extends Entity {
 	public float scentValue = 2;
 	public boolean isBeingAssisted = false, needsAssistance = false;
 	public Ant(Tile intile, Colony incolony) {
-		super(intile, incolony.map, Types.ANT);
+		super(intile, incolony.map, TileTypes.ANT);
 		colony = incolony;
 		scent = colony.scent;
 		listeners = new Vector<AntListener>();
@@ -44,6 +44,10 @@ public class Ant extends Entity {
 		} else {
 			return colony.color;
 		}
+	}
+	@Override
+	public boolean moveEntity() {
+		return jobManager.moveAnt();
 	}
 	public void raiseEvent(EventAntCreated e) {
 		for(AntListener l : listeners) {

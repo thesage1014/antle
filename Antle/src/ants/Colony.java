@@ -28,7 +28,7 @@ public class Colony {
 	}
 	public void addAnt(int x, int y) {
 		Tile tile = map.get(x, y);
-		if(tile.getType() != Types.ANT) {
+		if(tile.getType() != TileTypes.ANT) {
 			Ant newAnt = new Ant(tile,this);
 			ants.add(newAnt);
 		}

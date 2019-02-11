@@ -23,9 +23,9 @@ public class MapGenerator {
 				double curNoise = KenPerlin.noise((ps.earthNoiseScale.value*x),(ps.earthNoiseScale.value*y),noiseZ);
 				double rockNoise = KenPerlin.noise((ps.earthNoiseScale.value*x),(ps.earthNoiseScale.value*y),noiseZ-0.3);
 				if(rockNoise > ps.stoneLayerCutoff.value) {
-					map.get(x, y).setTo(Types.STONE);
+					map.get(x, y).setTo(TileTypes.STONE);
 				} else if(curNoise > ps.earthDensity.value) {
-					map.get(x, y).setTo(Types.DIRT);
+					map.get(x, y).setTo(TileTypes.DIRT);
 					Color dirtColor = new Color((int)(-curNoise*25+51),(int)(-curNoise*15)+41,(int)(-curNoise*5+15));
 					map.get(x, y).color = dirtColor;
 				} else {
@@ -34,7 +34,7 @@ public class MapGenerator {
 //					}
 					double curNoise2 = KenPerlin.noise((ps.earthNoiseScale.value*x),(ps.earthNoiseScale.value*y),noiseZ + 10);
 					if(curNoise2 >= ps.foodSpawnAmount.value) {
-						map.get(x, y).setTo(Types.FOOD);
+						map.get(x, y).setTo(TileTypes.FOOD);
 					}
 				}
 			}
@@ -44,17 +44,17 @@ public class MapGenerator {
 		
 		// Fence off the map
 		for(int x=0; x<map.w; x++) {
-			map.get(x,0).setTo(Types.PERMANENT);
-			map.get(x,1).setTo(Types.PERMANENT);
-			map.get(x,map.h-1).setTo(Types.PERMANENT);
-			map.get(x,map.h-2).setTo(Types.PERMANENT);
-			map.get(x,map.h-3).setTo(Types.PERMANENT);
+			map.get(x,0).setTo(TileTypes.PERMANENT);
+			map.get(x,1).setTo(TileTypes.PERMANENT);
+			map.get(x,map.h-1).setTo(TileTypes.PERMANENT);
+			map.get(x,map.h-2).setTo(TileTypes.PERMANENT);
+			map.get(x,map.h-3).setTo(TileTypes.PERMANENT);
 		}
 		for(int y=0; y<map.h; y++) {
-			map.get(0,y).setTo(Types.PERMANENT);
-			map.get(1,y).setTo(Types.PERMANENT);
-			map.get(map.w-2,y).setTo(Types.PERMANENT);
-			map.get(map.w-1,y).setTo(Types.PERMANENT);
+			map.get(0,y).setTo(TileTypes.PERMANENT);
+			map.get(1,y).setTo(TileTypes.PERMANENT);
+			map.get(map.w-2,y).setTo(TileTypes.PERMANENT);
+			map.get(map.w-1,y).setTo(TileTypes.PERMANENT);
 		}
 		for(int i=0;i<inpSM.getGlobal().numColonies.i();i++) {
 			int antSpawnBoxSize = ps.antSpawnBoxSize.i();
@@ -63,7 +63,7 @@ public class MapGenerator {
 			Colony colony = map.colonies.get(i);
 			for(int x=distX-map.w/antSpawnBoxSize;x<distX+map.w/antSpawnBoxSize;x++) {
 				for(int y=map.h/2-map.h/antSpawnBoxSize;y<map.h/2+map.h/antSpawnBoxSize;y++) {
-					if(map.get(x, y).getType() != Types.PERMANENT)
+					if(map.get(x, y).getType() != TileTypes.PERMANENT)
 						colony.addAnt(x,y);
 				}
 			}
