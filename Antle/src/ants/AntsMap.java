@@ -12,7 +12,7 @@ import java.util.Arrays;
 import java.util.Random;
 import java.util.Vector;
 
-import org.omg.CORBA.REBIND;
+//import org.omg.CORBA.REBIND;
 
 public final class AntsMap {
 	public int[] erosionMap;
