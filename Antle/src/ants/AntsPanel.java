@@ -18,7 +18,6 @@ import javax.swing.JPanel;
 import javax.swing.event.MouseInputListener;
 
 public final class AntsPanel extends JPanel implements Tickable, MouseListener, KeyEventDispatcher, ParamSetManager {
-	AntsApplet applet;
 	AntsMap map;
 	TickThread tickThread, renderThread;
 	ParamSetGlobal ps;
@@ -26,10 +25,9 @@ public final class AntsPanel extends JPanel implements Tickable, MouseListener, 
 	UIBuilder ui;
 	boolean showingHeatmap = false;
 	private int recentTicks = 0;
-	public AntsPanel(AntsApplet inapplet, ParamSetGlobal inParams) {
+	public AntsPanel(ParamSetGlobal inParams) {
 		paramSets = new Vector<ParamSet>();
 		paramSets.add(inParams);
-		applet = inapplet;
 		ps = (ParamSetGlobal)paramSets.get(0);
 		map = new AntsMap(ps.mapW.i(),ps.mapH.i(), this);
 		ui = new UIBuilder(this);

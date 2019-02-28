@@ -26,12 +26,18 @@ public class Colony {
 		scent = new Scent(name,incolor,inscentIndex,map.w,map.h);
 		ants = new Vector<Ant>();
 	}
-	public void addAnt(int x, int y) {
-		Tile tile = map.get(x, y);
-		if(tile.getType() != TileTypes.ANT) {
-			Ant newAnt = new Ant(tile,this);
-			ants.add(newAnt);
+	public boolean addAnt(int x, int y) {
+		if(map.InBounds(x,y)) {
+			Tile tile = map.get(x, y);
+			if(tile.getType() != TileTypes.ANT) {
+				Ant newAnt = new Ant(tile,this);
+				ants.add(newAnt);
+			}
+			return true;
+		} else {
+			return false;
 		}
+			
 	}
 	public void tickAnts() {
 		if(params.allFindFood.buttonPressed()) {

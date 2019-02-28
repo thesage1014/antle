@@ -18,9 +18,9 @@ public final class ParamSetGlobal extends ParamSet {
 		arrayQueue.add(renderTickDelay		= new Param(Param.SLIDER,	false,	0,		200,	1000/60,			"Render tick delay(ms)"));
 		arrayQueue.add(earthDensity			= new Param(Param.SLIDER,	false,	-1,		1,			-.1,			"Earth density cutoff"));
 		arrayQueue.add(stoneLayerCutoff		= new Param(Param.SLIDER,	false,	-1,		1,			.3,				"Stone layer cutoff"));
-		arrayQueue.add(earthNoiseScale		= new Param(Param.SLIDER,	false,	.4,		.01,		.07,			"Earth noise scale"));
+		arrayQueue.add(earthNoiseScale		= new Param(Param.SLIDER,	false,	.4,		.01,		.05,			"Earth noise scale"));
 		arrayQueue.add(erosionPerStep		= new Param(Param.SLIDER,	false,	1,		255,		5,				"Max erosion per step"));
-		arrayQueue.add(antSpawnBoxSize		= new Param(Param.SLIDER,	false,	4,		150,		60,				"Ant spawn box size"));
+		arrayQueue.add(antSpawnBoxSize		= new Param(Param.SLIDER,	false,	4,		150,		20,				"Ant spawn box size"));
 		arrayQueue.add(numColonies			= new Param(Param.SLIDER,	false,	0,		8,			2,				"Number of colonies"));
 		arrayQueue.add(foodSpawnAmount		= new Param(Param.SLIDER,	false,	1,		-1,			.5,				"Food spawn amount"));
 		arrayQueue.add(scentBlurSpeed		= new Param(Param.SLIDER,	false,	1000,	10,			100,			"Scent blur speed"));

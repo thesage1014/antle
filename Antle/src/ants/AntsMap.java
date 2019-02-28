@@ -65,12 +65,6 @@ public final class AntsMap {
 	private BufferedImage buildImage() {
 		BufferedImage image = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
 		if(readyToDraw) {
-//		byte[] cr = new byte[]{(byte)163,	82,		51,	(byte)135};
-//		byte[] cg = new byte[]{(byte)132,	36,		41,	(byte)163};
-//		byte[] cb = new byte[]{(byte) 44,	22,		14,		   44};
-//		IndexColorModel model = new IndexColorModel(8,cr.length,cr,cg,cb);
-//		BufferedImage image = new BufferedImage(w, h, BufferedImage.TYPE_BYTE_INDEXED,model);
-//		image.getRaster().setPixels(0, 0, w, h, map);
 			Graphics2D g = image.createGraphics();
 			WritableRaster r = image.getRaster();
 			for(int x=0; x<w; x++) {
@@ -285,6 +279,10 @@ public final class AntsMap {
 	}
 	void setErosion(int x, int y, int type) {
 		erosionMap[x+w*y] = type;
+	}
+
+	public boolean InBounds(int x, int y) {
+		return (x < w && x > 0 && y < h && y > 0);
 	}
 }
 
