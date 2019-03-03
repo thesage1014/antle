@@ -39,6 +39,24 @@ public class Colony {
 		}
 			
 	}
+	public Ant spawnMLAnt() {
+		int x = map.w/2;
+		int y = map.h/2;
+		System.out.println(x + " " + y);
+		if(map.InBounds(x,y)) {
+			Tile tile = map.get(x, y);
+			if(tile.getType() != TileTypes.ANT) {
+
+			}
+			Ant newAnt = new Ant(tile,this);
+			ants.add(newAnt);
+			return newAnt;
+		}
+		else {
+			System.err.println("ant already there");
+			return null;
+		}
+	}
 	public void tickAnts() {
 		if(params.allFindFood.buttonPressed()) {
 			for(Ant a: ants) {

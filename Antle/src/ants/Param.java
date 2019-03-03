@@ -30,7 +30,7 @@ public class Param {
 		return (int)value;
 	}
 	public boolean bool() {
-		return value == 1;
+		return value != 0;
 	}
 	public void toggle() {
 		value = value==1?0:1;

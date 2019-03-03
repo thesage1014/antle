@@ -4,7 +4,7 @@ import org.deeplearning4j.rl4j.space.Encodable;
 
 import lombok.Value;
 @Value
-public class AntState implements Encodable {
+public class AntStateData implements Encodable {
 	double[] values;
 	int step;
 	@Override

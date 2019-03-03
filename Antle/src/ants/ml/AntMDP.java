@@ -9,48 +9,43 @@ import org.deeplearning4j.rl4j.space.DiscreteSpace;
 import org.deeplearning4j.rl4j.space.ObservationSpace;
 import org.json.JSONObject;
 
+import ants.Ant;
+import ants.TickThread;
 import lombok.Getter;
 
-public class AntMDP implements MDP<AntState, Integer, DiscreteSpace> {
+public class AntMDP implements MDP<AntStateData, Integer, DiscreteSpace> {
 	final private static int MAX_STEP = 20;
 	final private static int SEED = 1234;
-	final private static int ACTION_SIZE = 10;
-	final private static AntState[] states = genTestStates(MAX_STEP, SEED);
-	AntState antState = states[0];
+	final private static int ACTION_SIZE = 9;
+	AntStateData antState = Ant.buildDummyState();
+	@Getter
+	private ObservationSpace<AntStateData> observationSpace = new ArrayObservationSpace<AntStateData>(new int[] { antState.getValues().length });
+	private TickThread tickThread;
+	boolean attachedToGame = false;
 	@Getter
 	private DiscreteSpace actionSpace = new DiscreteSpace(ACTION_SIZE);
-	@Getter
-	private ObservationSpace<AntState> observationSpace = new ArrayObservationSpace<AntState>(new int[] { ACTION_SIZE });
-
+	public AntMDP(TickThread intickThread) {
+		tickThread = intickThread;
+		attachedToGame = true;
+	}
+	public AntMDP() {}
+	
 	@Override
-	public AntState reset() {
-		return antState = states[0];
+	public AntStateData reset() {
+		return antState = Ant.buildDummyState();
 	}
 
 	@Override
 	public void close() {
 	}
-
-	public static int maxIndex(double[] values) {
-//		double maxValue = -Double.MIN_VALUE;
-//		int maxIndex = -1;
-//		for (int i = 0; i < values.length; i++) {
-//			if (values[i] > maxValue) {
-//				maxValue = values[i];
-//				maxIndex = i;
-//			}
-//		}
-		return (int)values[0];
-	}
-	public StepReply<AntState> step(Integer a) {
+	public StepReply<AntStateData> step(Integer a) {
 		double reward = 0;
 //		System.out.println(a);
-		if (a == maxIndex(antState.getValues()))
-			reward += 1;
-		antState = states[antState.getStep() + 1];
-//		System.out.println(antState);
+		
+		antState = tickThread.step(a);
+		System.out.println(antState);
 //		System.out.print(reward);
-		return new StepReply<AntState>(antState, reward, isDone(), new JSONObject("{}"));
+		return new StepReply<AntStateData>(antState, reward, isDone(), new JSONObject("{}"));
 	}
 
 	@Override
@@ -59,31 +54,31 @@ public class AntMDP implements MDP<AntState, Integer, DiscreteSpace> {
 	}
 
 	@Override
-	public MDP<AntState, Integer, DiscreteSpace> newInstance() {
+	public MDP<AntStateData, Integer, DiscreteSpace> newInstance() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public static AntState[] genTestStates(int size, int seed) {
-
-		Random rd = new Random(seed);
-		AntState[] hardToyStates = new AntState[size];
-		for (int i = 0; i < size; i++) {
-
-			double[] values = new double[ACTION_SIZE];
-			int reward = 5;// rd.nextInt(ACTION_SIZE-1)+1;
-			values[0] = reward;
-			System.out.print(values[0] + ", ");
-			for (int j = 1; j < ACTION_SIZE; j++) {
-				values[j] = (j==reward)?1:0;
-				System.out.print(values[j] + ", ");
-			}
-			hardToyStates[i] = new AntState(values, i);
-			System.out.println();
-		}
-
-		return hardToyStates;
-	}
+//	public static AntState[] genTestStates(int size, int seed) {
+//
+//		Random rd = new Random(seed);
+//		AntState[] hardToyStates = new AntState[size];
+//		for (int i = 0; i < size; i++) {
+//
+//			double[] values = new double[ACTION_SIZE];
+//			int reward = 5;// rd.nextInt(ACTION_SIZE-1)+1;
+//			values[0] = reward;
+//			System.out.print(values[0] + ", ");
+//			for (int j = 1; j < ACTION_SIZE; j++) {
+//				values[j] = (j==reward)?1:0;
+//				System.out.print(values[j] + ", ");
+//			}
+//			hardToyStates[i] = new AntState(values, i);
+//			System.out.println();
+//		}
+//
+//		return hardToyStates;
+//	}
 }
 
 //public class HardDeteministicToy implements MDP<HardToyState, Integer, DiscreteSpace> {

@@ -35,6 +35,5 @@ public final class StartGame extends JFrame {
 	}
 	public static void main(String[] args) {
 		StartGame frame = new StartGame();
-		
 	}
 }

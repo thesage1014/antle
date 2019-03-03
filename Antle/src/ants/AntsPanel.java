@@ -17,6 +17,8 @@ import java.util.Vector;
 import javax.swing.JPanel;
 import javax.swing.event.MouseInputListener;
 
+import ants.ml.AntStateData;
+
 public final class AntsPanel extends JPanel implements Tickable, MouseListener, KeyEventDispatcher, ParamSetManager {
 	AntsMap map;
 	TickThread tickThread, renderThread;
@@ -31,8 +33,8 @@ public final class AntsPanel extends JPanel implements Tickable, MouseListener, 
 		ps = (ParamSetGlobal)paramSets.get(0);
 		map = new AntsMap(ps.mapW.i(),ps.mapH.i(), this);
 		ui = new UIBuilder(this);
-		tickThread = new TickThread(this, ps.tickDelay.i(), Tickable.GAME);
-		renderThread = new TickThread(this, ps.renderTickDelay.i(), Tickable.RENDER);
+		tickThread = new TickThread(this, ps.playSpeed.i(), Tickable.GAME, ps);
+		renderThread = new TickThread(this, ps.renderTickDelay.i(), Tickable.RENDER,ps);
 		addMouseListener(this);
 		addMouseListener(ui);
 		addMouseWheelListener(ui);
@@ -71,6 +73,12 @@ public final class AntsPanel extends JPanel implements Tickable, MouseListener, 
 		}
 		
 	}
+	@Override
+	public AntStateData tick() {
+		recentTicks++;
+		map.tick();
+		return null;
+	}
 	
 	private void restart() {
 		map.kill();
@@ -79,14 +87,18 @@ public final class AntsPanel extends JPanel implements Tickable, MouseListener, 
 
 	@Override
 	public void paramUpdate(Param param) {
-		if(param.name == "Tick delay(ms)") {
+		if(param == ps.playSpeed) {
 			tickThread.delay = param.i();
-		} else if(param.name == "Render tick delay(ms)") {
+		} else if(param == ps.renderTickDelay) {
 			renderThread.delay = param.i();
 		} else if(param.name == "Map width") {
 			ps.mapH.value = param.i()/2;
 		} else if(param.name == "Map height") {
 			ps.mapW.value = param.i()*2;
+		} else if(param == ps.useMachineLearning) {
+			if(ps.useMachineLearning.bool()) {
+				tickThread.initMLAnt(map.colonies.get(0).spawnMLAnt());
+			}
 		}
 	}
 	
@@ -146,5 +158,6 @@ public final class AntsPanel extends JPanel implements Tickable, MouseListener, 
 	public Vector<ParamSet> getParamSets() {
 		return paramSets;
 	}
+
 	
 }

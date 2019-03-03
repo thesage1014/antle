@@ -5,6 +5,7 @@ import java.util.Random;
 import java.util.Vector;
 
 import ants.ai.*;
+import ants.ml.AntStateData;
 
 public class Ant extends Entity {
 	public JobManager jobManager;
@@ -14,6 +15,8 @@ public class Ant extends Entity {
 	public Scent scent;
 	public float scentValue = 2;
 	public boolean isBeingAssisted = false, needsAssistance = false;
+	int mLSteps = 0;
+	static final int scanSize = 5;
 	public Ant(Tile intile, Colony incolony) {
 		super(intile, incolony.map, TileTypes.ANT);
 		colony = incolony;
@@ -24,6 +27,23 @@ public class Ant extends Entity {
 	}
 	public void addAntListener(AntListener inlistener) {
 		listeners.add(inlistener);
+	}
+	public static AntStateData buildDummyState() {
+		return new AntStateData(new double[scanSize*scanSize],0);
+	}
+	public AntStateData buildMLState() {
+		AntsMap map = colony.map;
+		double[] values = new double[scanSize * scanSize];
+		int x = 0;
+		for(int i=-scanSize/2;i<scanSize/2;i++) {
+			int y = 0;
+			x++;
+			for(int j=-scanSize/2;i<scanSize/2;i++) {
+				values[x+y*scanSize] = (map.get(i+tile.x, j+tile.y).getType().isSolid)?10:0;
+				y++;
+			}
+		}
+		return new AntStateData(values,mLSteps);
 	}
 	@Override
 	public boolean pickupItem(Item item) {
@@ -47,6 +67,7 @@ public class Ant extends Entity {
 	}
 	@Override
 	public boolean moveEntity() {
+		mLSteps++;
 		return jobManager.moveAnt();
 	}
 	public void raiseEvent(EventAntCreated e) {
