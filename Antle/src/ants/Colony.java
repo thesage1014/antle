@@ -5,11 +5,12 @@ import java.util.Random;
 import java.util.Vector;
 
 import ants.ai.JobCollectFood;
+import ants.ai.JobML;
 
 
 public class Colony {
 	ParamSetManager pSM;
-	public ParamSetColony params;
+	public ParamSetColony colonyParams;
 	Vector<Ant> ants;
 	public AntsMap map;
 	public int[] color;
@@ -19,8 +20,8 @@ public class Colony {
 	public Colony(ParamSetManager inpSM, int inx, int iny, String inname, AntsMap inmap, int[] incolor, int inscentIndex) {
 		pSM = inpSM;
 		name = inname;
-		params = new ParamSetColony(this);
-		pSM.addParamSet(params);
+		colonyParams = new ParamSetColony(this);
+		pSM.addParamSet(colonyParams);
 		map = inmap;
 		color = incolor;
 		scent = new Scent(name,incolor,inscentIndex,map.w,map.h);
@@ -39,16 +40,16 @@ public class Colony {
 		}
 			
 	}
-	public Ant spawnMLAnt() {
+	public AntML spawnMLAnt() {
 		int x = map.w/2;
 		int y = map.h/2;
-		System.out.println(x + " " + y);
 		if(map.InBounds(x,y)) {
 			Tile tile = map.get(x, y);
+			AntML newAnt = new AntML(tile,this);
+			newAnt.jobManager.setJob(this, new JobML(newAnt));
 			if(tile.getType() != TileTypes.ANT) {
-
+				tile.setToEntity(newAnt);
 			}
-			Ant newAnt = new Ant(tile,this);
 			ants.add(newAnt);
 			return newAnt;
 		}
@@ -58,7 +59,7 @@ public class Colony {
 		}
 	}
 	public void tickAnts() {
-		if(params.allFindFood.buttonPressed()) {
+		if(colonyParams.allFindFood.buttonPressed()) {
 			for(Ant a: ants) {
 				a.jobManager.setJob(this, new JobCollectFood(a));
 			}
@@ -71,6 +72,6 @@ public class Colony {
 		}
 	}
 	public void kill() {
-		pSM.getParamSets().remove(params);
+		pSM.getParamSets().remove(colonyParams);
 	}
 }

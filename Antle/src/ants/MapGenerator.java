@@ -56,12 +56,12 @@ public class MapGenerator {
 			Colony colony = map.colonies.get(i);
 			for(int x=distX-antSpawnBoxSize/2;x<distX+antSpawnBoxSize/2;x++) {
 				for(int y=colony.y+4-antSpawnBoxSize/2;y<colony.y+4+antSpawnBoxSize/2;y++) {
-					if(map.InBounds(x, y) && map.get(x, y).getType() != TileTypes.PERMANENT)
-						colony.addAnt(x,y);
+//					if(map.InBounds(x, y) && map.get(x, y).getType() != TileTypes.PERMANENT)
+//						colony.addAnt(x,y);
 				}
 			}
-			Ant stinkyAnt = colony.ants.get(0);
-			stinkyAnt.jobManager.setJob(colony, new JobBeStinky(stinkyAnt));
+//			Ant stinkyAnt = colony.ants.get(0);
+//			stinkyAnt.jobManager.setJob(colony, new JobBeStinky(stinkyAnt));
 		}
 		
 	}

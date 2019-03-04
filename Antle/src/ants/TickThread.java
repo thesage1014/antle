@@ -1,6 +1,6 @@
 package ants;
 
-import ants.ml.AntLearningManager;
+import ants.ml.AntLearningCore;
 import ants.ml.AntStateData;
 
 public final class TickThread implements Runnable {
@@ -9,8 +9,8 @@ public final class TickThread implements Runnable {
 	int delay;
 	ParamSetGlobal ps;
 	public boolean paused = false, alive = true, updating = false;
-	AntLearningManager antLearningManager = null;
-	Ant debugAnt;
+	AntLearningCore antLearningManager = null;
+	AntML debugAnt;
 	
 	public TickThread(Tickable inTickable, int delayInMilliseconds, int inTickType, ParamSetGlobal inps) {
 		tickable = inTickable;
@@ -23,17 +23,18 @@ public final class TickThread implements Runnable {
 	public AntStateData step(Integer a) {
 		if(antLearningManager != null && ps.useMachineLearning.bool()) {			
 			updating = true;
-			AntStateData state = debugAnt.buildMLState();
-			
+			debugAnt.SetAction(a);
 			tickable.tick();
+			AntStateData state = debugAnt.buildMLState();
 			
 			updating = false;
 			return state;
 		} else {
+			System.err.println("Stepped on by detatched MDP?");
 			return null;
 		}
 	}
-	public void initMLAnt(Ant ant) {
+	public void initMLAnt(AntML ant) {
 		debugAnt = ant;
 	}
 	@Override
@@ -42,8 +43,8 @@ public final class TickThread implements Runnable {
 			while(alive && !paused) {
 				if(tickType == tickable.GAME && ps.useMachineLearning.bool()) {
 					if(antLearningManager == null) { // TODO Move this to MLInterface
-						antLearningManager = new AntLearningManager();
-						antLearningManager.attachNewBrain(this);
+						antLearningManager = new AntLearningCore();
+						antLearningManager.attachNewBrain(new MLInterface(this));
 					}					
 				} else {
 					updating = true;

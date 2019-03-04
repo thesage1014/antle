@@ -16,9 +16,10 @@ import org.deeplearning4j.ui.stats.StatsListener;
 import org.deeplearning4j.ui.storage.InMemoryStatsStorage;
 import org.nd4j.linalg.learning.config.Adam;
 
+import ants.MLInterface;
 import ants.TickThread;
 
-public class AntLearningManager {
+public class AntLearningCore {
 	public static QLearning.QLConfiguration ANT_CONFIG = new QLearning.QLConfiguration(123, // Random seed
 			100000, // Max step By epoch
 			80000, // Max step
@@ -60,11 +61,11 @@ public class AntLearningManager {
 		mdp.close();
 
 	}
-	public void attachNewBrain(TickThread intickThread) {
+	public void attachNewBrain(MLInterface mli) {
 		try {
 			DataManager manager = new DataManager();
 			
-			AntMDP mdp = new AntMDP(intickThread);
+			AntMDP mdp = new AntMDP(mli);
 			
 			UIServer uiServer = UIServer.getInstance();
 			
@@ -89,7 +90,7 @@ public class AntLearningManager {
 		}
 	}
 	public static void main(String[] args) throws IOException {
-		AntLearningManager testAnt = new AntLearningManager();
+		AntLearningCore testAnt = new AntLearningCore();
 		testAnt.testAnt();
 	}
 }

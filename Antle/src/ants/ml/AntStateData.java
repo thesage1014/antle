@@ -7,6 +7,7 @@ import lombok.Value;
 public class AntStateData implements Encodable {
 	double[] values;
 	int step;
+	boolean lastStep;
 	@Override
 	public double[] toArray() {
 		// TODO Auto-generated method stub

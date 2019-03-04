@@ -25,7 +25,7 @@ public class MoverRandExploreDirt extends MovementManager {
 				dirx = dirx2;
 				diry = diry2;
 			} else if(map.get(ant.tile.x+dirx2, ant.tile.y+diry2).getType() == TileTypes.DIRT) {
-				if(colony.params.dirtExplorationPreference.value > rand.nextDouble() ) {
+				if(colony.colonyParams.dirtExplorationPreference.value > rand.nextDouble() ) {
 					dirx = dirx2;
 					diry = diry2;
 				}

@@ -10,6 +10,7 @@ import org.deeplearning4j.rl4j.space.ObservationSpace;
 import org.json.JSONObject;
 
 import ants.Ant;
+import ants.MLInterface;
 import ants.TickThread;
 import lombok.Getter;
 
@@ -17,22 +18,22 @@ public class AntMDP implements MDP<AntStateData, Integer, DiscreteSpace> {
 	final private static int MAX_STEP = 20;
 	final private static int SEED = 1234;
 	final private static int ACTION_SIZE = 9;
-	AntStateData antState = Ant.buildDummyState();
+	AntStateData antState = MLInterface.buildDummyState();
 	@Getter
 	private ObservationSpace<AntStateData> observationSpace = new ArrayObservationSpace<AntStateData>(new int[] { antState.getValues().length });
 	private TickThread tickThread;
 	boolean attachedToGame = false;
 	@Getter
 	private DiscreteSpace actionSpace = new DiscreteSpace(ACTION_SIZE);
-	public AntMDP(TickThread intickThread) {
-		tickThread = intickThread;
+	public AntMDP(MLInterface mli) {
+		tickThread = mli.tickThread;
 		attachedToGame = true;
 	}
 	public AntMDP() {}
 	
 	@Override
 	public AntStateData reset() {
-		return antState = Ant.buildDummyState();
+		return antState = MLInterface.buildDummyState();
 	}
 
 	@Override
@@ -43,6 +44,9 @@ public class AntMDP implements MDP<AntStateData, Integer, DiscreteSpace> {
 //		System.out.println(a);
 		
 		antState = tickThread.step(a);
+		if(antState == null) {
+			antState = MLInterface.buildDummyState();
+		}
 		System.out.println(antState);
 //		System.out.print(reward);
 		return new StepReply<AntStateData>(antState, reward, isDone(), new JSONObject("{}"));
@@ -50,7 +54,7 @@ public class AntMDP implements MDP<AntStateData, Integer, DiscreteSpace> {
 
 	@Override
 	public boolean isDone() {
-		return antState.getStep() == MAX_STEP - 1;
+		return antState == null;
 	}
 
 	@Override

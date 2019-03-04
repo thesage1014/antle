@@ -27,8 +27,11 @@ public abstract class MovementManager {
 		}
 		return moved;
 	}
-
-	abstract boolean beMoved(); // returns weather or not move was successful
+	/**
+	 * Move Tick
+	 * @return returns weather or not move was successful
+	 */
+	abstract boolean beMoved();
 //	public boolean canMove(int x, int y) {
 //		return false;
 //	}
