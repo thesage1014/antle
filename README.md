@@ -5,6 +5,8 @@ The goal is to create an easy to use platform for people to design their own AI.
 
 The original goal was to learn more about collective thinking and see the more simple patterns, so this understanding can be applied to learn about humans interacting over the internet. However, with the rise of machine learning affectung our daily lives, it's become important to have this technology more accessible to the layperson.
 
+This project is similar in scope to the OpenAI project https://github.com/openai/neural-mmo with the major difference of being implemented in Java with rl4j from deeplearning4j's tools.
+
 ![Early screenshot of the merged scent map](/Antle/screenshots/13.png?raw=true)
 
 # Current State
