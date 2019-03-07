@@ -39,6 +39,9 @@ public final class AntsPanel extends JPanel implements Tickable, MouseListener, 
 		addMouseListener(ui);
 		addMouseWheelListener(ui);
 		addMouseMotionListener(ui);
+		if(ps.useMachineLearning.bool()) {
+			ps.debugAnt = map.colonies.get(0).spawnMLAnt();
+		}
 	}
 	
 	public void paint(Graphics g) {
@@ -73,8 +76,11 @@ public final class AntsPanel extends JPanel implements Tickable, MouseListener, 
 		}
 		
 	}
+	public TickThread GetMLTickThread() {
+		return tickThread;
+	}
 	@Override
-	public AntStateData tick() {
+	public AntStateData mlTick() {
 		recentTicks++;
 		map.tick();
 		return null;
@@ -96,9 +102,7 @@ public final class AntsPanel extends JPanel implements Tickable, MouseListener, 
 		} else if(param.name == "Map height") {
 			ps.mapW.value = param.i()*2;
 		} else if(param == ps.useMachineLearning) {
-			if(ps.useMachineLearning.bool()) {
-				tickThread.initMLAnt(map.colonies.get(0).spawnMLAnt());
-			}
+			
 		}
 	}
 	
@@ -158,6 +162,8 @@ public final class AntsPanel extends JPanel implements Tickable, MouseListener, 
 	public Vector<ParamSet> getParamSets() {
 		return paramSets;
 	}
+
+	
 
 	
 }

@@ -6,6 +6,8 @@ import java.util.Vector;
 public final class ParamSetGlobal extends ParamSet {
 	public Param mapW, mapH, displayW, displayH, useMachineLearning, playSpeed, earthDensity, stoneLayerCutoff, earthNoiseScale, renderTickDelay, 
 			erosionPerStep, antBehavior, antSpawnBoxSize, numColonies, foodSpawnAmount, scentBlurSpeed;
+	public AntleEventManager debugEventManager = new AntleEventManager();
+	public AntML debugAnt;
 	public ParamSetGlobal() {
 		name = "Global";
 		ArrayList<Param> arrayQueue = new ArrayList<Param>();
@@ -14,10 +16,10 @@ public final class ParamSetGlobal extends ParamSet {
 		arrayQueue.add(displayH				= new Param(Param.SLIDER,	true,	4,		1080,		512,			"Display height"));
 		arrayQueue.add(mapW 				= new Param(Param.SLIDER,	false,	16,		displayW.i(),256,			"Map width"));
 		arrayQueue.add(mapH 				= new Param(Param.SLIDER,	false,	8,		displayH.i(),128,			"Map height"));
-		arrayQueue.add(useMachineLearning	= new Param(Param.TOGGLE,	false,	0,		1,			0,				"Use Machine Learning"));
+		arrayQueue.add(useMachineLearning	= new Param(Param.TOGGLE,	true,	0,		1,			1,				"Use Machine Learning"));
 		arrayQueue.add(playSpeed			= new Param(Param.SLIDER,	false,	50,		0,			10,				"Game Speed"));
 		arrayQueue.add(renderTickDelay		= new Param(Param.SLIDER,	false,	0,		200,	1000/60,			"Render tick delay(ms)"));
-		arrayQueue.add(earthDensity			= new Param(Param.SLIDER,	false,	-1,		1,			1,			"Earth density cutoff"));
+		arrayQueue.add(earthDensity			= new Param(Param.SLIDER,	false,	-1,		1,			0,				"Earth density cutoff"));
 		arrayQueue.add(stoneLayerCutoff		= new Param(Param.SLIDER,	false,	-1,		1,			1,				"Stone layer cutoff"));
 		arrayQueue.add(earthNoiseScale		= new Param(Param.SLIDER,	false,	.4,		.01,		.05,			"Earth noise scale"));
 		arrayQueue.add(erosionPerStep		= new Param(Param.SLIDER,	false,	1,		255,		5,				"Max erosion per step"));

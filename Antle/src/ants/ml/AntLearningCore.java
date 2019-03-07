@@ -19,7 +19,8 @@ import org.nd4j.linalg.learning.config.Adam;
 import ants.MLInterface;
 import ants.TickThread;
 
-public class AntLearningCore {
+public class AntLearningCore implements Runnable{
+	public MLInterface mlInterface;
 	public static QLearning.QLConfiguration ANT_CONFIG = new QLearning.QLConfiguration(123, // Random seed
 			100000, // Max step By epoch
 			80000, // Max step
@@ -35,37 +36,46 @@ public class AntLearningCore {
 			true // double DQN
 	);
 	
-	public void testAnt() throws IOException {
-		// record the training data
-		DataManager manager = new DataManager();
-		
-		AntMDP mdp = new AntMDP();
-
-		UIServer uiServer = UIServer.getInstance();
-
-		// Configure where the network information (gradients, activations, score vs. time etc) is to be stored. Then add the StatsListener to collect this information from the network, as  it trains
-		
-		StatsStorage statsStorage = new InMemoryStatsStorage(); // Alternative: new FileStatsStorage(File) - see UIStorageExample
-		TrainingListener[] listeners = new StatsListener[] { new StatsListener(statsStorage) };
-		
-		DQNFactoryStdDense.Configuration antNet = DQNFactoryStdDense.Configuration.builder().listeners(listeners)
-				.l2(0.01).updater(new Adam(1e-2)).numLayer(3).numHiddenNodes(16).build();
-		
-		ILearning<AntStateData, Integer, DiscreteSpace> dql = new QLearningDiscreteDense<AntStateData>(mdp, antNet, ANT_CONFIG, manager);
-
-		uiServer.attach(statsStorage);
-		 
-		dql.train();
-
-		// useless on ant but good practice!
-		mdp.close();
-
-	}
+//	public void testAnt() throws IOException {
+//		// record the training data
+//		DataManager manager = new DataManager();
+//		
+//		AntMDP mdp = new AntMDP();
+//
+//		UIServer uiServer = UIServer.getInstance();
+//
+//		// Configure where the network information (gradients, activations, score vs. time etc) is to be stored. Then add the StatsListener to collect this information from the network, as  it trains
+//		
+//		StatsStorage statsStorage = new InMemoryStatsStorage(); // Alternative: new FileStatsStorage(File) - see UIStorageExample
+//		TrainingListener[] listeners = new StatsListener[] { new StatsListener(statsStorage) };
+//		
+//		DQNFactoryStdDense.Configuration antNet = DQNFactoryStdDense.Configuration.builder().listeners(listeners)
+//				.l2(0.01).updater(new Adam(1e-2)).numLayer(3).numHiddenNodes(16).build();
+//		
+//		ILearning<AntStateData, Integer, DiscreteSpace> dql = new QLearningDiscreteDense<AntStateData>(mdp, antNet, ANT_CONFIG, manager);
+//
+//		uiServer.attach(statsStorage);
+//		 
+//		dql.train();
+//
+//		// useless on ant but good practice!
+//		mdp.close();
+//
+//	}
 	public void attachNewBrain(MLInterface mli) {
+		mlInterface = mli;
+		new Thread(this).start();
+	}
+//	public static void main(String[] args) throws IOException {
+//		AntLearningCore testAnt = new AntLearningCore();
+//		testAnt.testAnt();
+//	}
+	@Override
+	public void run() {
 		try {
 			DataManager manager = new DataManager();
 			
-			AntMDP mdp = new AntMDP(mli);
+			AntMDP mdp = new AntMDP(mlInterface);
 			
 			UIServer uiServer = UIServer.getInstance();
 			
@@ -88,9 +98,5 @@ public class AntLearningCore {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	}
-	public static void main(String[] args) throws IOException {
-		AntLearningCore testAnt = new AntLearningCore();
-		testAnt.testAnt();
 	}
 }

@@ -17,6 +17,7 @@ public final class StartGame extends JFrame {
 	ParamSetGlobal params;
 	public StartGame() {
 		params = new ParamSetGlobal();
+		
 		InitPanel();
 	}
 	public StartGame(ParamSetGlobal inParamset) {
@@ -25,6 +26,10 @@ public final class StartGame extends JFrame {
 	}
 	void InitPanel() {
 		panel = new AntsPanel(params);
+		if(params.useMachineLearning.bool()) {
+			MLInterface mli = new MLInterface(panel);
+			mli.tickThread = panel.tickThread; // TODO initialize better
+		}
 		panel.setBackground(Color.BLACK);
 		KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(panel);
 		add(panel);
