@@ -15,8 +15,7 @@ public class Ant extends Entity {
 	public Scent scent;
 	public float scentValue = 2;
 	public boolean isBeingAssisted = false, needsAssistance = false;
-	int mLSteps = 0;
-	static final int scanSize = 5;
+	
 	public Ant(Tile intile, Colony incolony) {
 		super(intile, incolony.map, TileTypes.ANT);
 		colony = incolony;
@@ -51,7 +50,6 @@ public class Ant extends Entity {
 	}
 	@Override
 	public boolean moveEntity() {
-		mLSteps++;
 		return jobManager.moveAnt();
 	}
 	public void raiseEvent(EventAntCreated e) {

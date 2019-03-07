@@ -23,7 +23,7 @@ public class MLInterface {
 		antLearningCore.attachNewBrain(this);
 	}
 	public static final AntStateData buildDummyState() {
-		return new AntStateData(new double[Ant.scanSize*Ant.scanSize],0,false);
+		return new AntStateData(new double[AntML.stateScanSize*AntML.stateScanSize],0,false,0);
 	}
 	public AntStateData step(Integer a) {
 		panel.ps.debugAnt.SetAction(a);

@@ -11,7 +11,7 @@ public class JobML extends Job {
 	public void antRecievedItem(EventAntRecievedItem e) {
 		super.antRecievedItem(e);
 		if(e.item instanceof FoodItem) {
-			((AntML)e.ant).AddReward(1000,this);
+			((AntML)e.ant).AddReward(100000,this);
 		}
 	}
 }

@@ -8,6 +8,8 @@ public class AntStateData implements Encodable {
 	double[] values;
 	int step;
 	boolean lastStep;
+	double reward;
+	
 	@Override
 	public double[] toArray() {
 		// TODO Auto-generated method stub

@@ -48,7 +48,7 @@ public class AntMDP implements MDP<AntStateData, Integer, DiscreteSpace> {
 		}
 //		System.out.println(antState);
 //		System.out.print(reward);
-		return new StepReply<AntStateData>(antState, reward, isDone(), new JSONObject("{}"));
+		return new StepReply<AntStateData>(antState, antState.getReward(), antState.isLastStep(), new JSONObject("{}"));
 	}
 
 	@Override
