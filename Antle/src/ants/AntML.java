@@ -27,17 +27,16 @@ public class AntML extends Ant {
 			x++;
 //			System.out.println();
 		}
-		return new AntStateData(values,mLSteps,false,reward);
+		return new AntStateData(values,mLSteps,mLSteps > 100,reward);
 	}
-	public void SetAction(Integer a) {
+	public void mlStep(Integer a) {
 		action = a;
-		reward = 0;
+		reward = a==4?0:10;
 	}
 	public Integer GetAction() {
 		return action;
 	}
 	public void AddReward(double r, Object source) {
-		// TODO Auto-generated method stub
 		reward += r;
 	}
 }

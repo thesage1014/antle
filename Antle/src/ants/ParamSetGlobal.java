@@ -19,13 +19,13 @@ public final class ParamSetGlobal extends ParamSet {
 		arrayQueue.add(useMachineLearning	= new Param(Param.TOGGLE,	true,	0,		1,			1,				"Use Machine Learning"));
 		arrayQueue.add(playSpeed			= new Param(Param.SLIDER,	false,	50,		0,			10,				"Game Speed"));
 		arrayQueue.add(renderTickDelay		= new Param(Param.SLIDER,	false,	0,		200,	1000/60,			"Render tick delay(ms)"));
-		arrayQueue.add(earthDensity			= new Param(Param.SLIDER,	false,	-1,		1,			0,				"Earth density cutoff"));
+		arrayQueue.add(earthDensity			= new Param(Param.SLIDER,	false,	1,		-1,			1,				"Earth density cutoff"));
 		arrayQueue.add(stoneLayerCutoff		= new Param(Param.SLIDER,	false,	-1,		1,			1,				"Stone layer cutoff"));
-		arrayQueue.add(earthNoiseScale		= new Param(Param.SLIDER,	false,	.4,		.01,		.05,			"Earth noise scale"));
+		arrayQueue.add(earthNoiseScale		= new Param(Param.SLIDER,	false,	.4,		.01,		.25,			"Earth noise scale"));
 		arrayQueue.add(erosionPerStep		= new Param(Param.SLIDER,	false,	1,		255,		5,				"Max erosion per step"));
 		arrayQueue.add(antSpawnBoxSize		= new Param(Param.SLIDER,	false,	4,		150,		4,				"Ant spawn box size"));
 		arrayQueue.add(numColonies			= new Param(Param.SLIDER,	false,	0,		8,			1,				"Number of colonies"));
-		arrayQueue.add(foodSpawnAmount		= new Param(Param.SLIDER,	false,	1,		-1,			.5,				"Food spawn amount"));
+		arrayQueue.add(foodSpawnAmount		= new Param(Param.SLIDER,	false,	1,		-1,			.4,				"Food spawn amount"));
 		arrayQueue.add(scentBlurSpeed		= new Param(Param.SLIDER,	false,	1000,	10,			100,			"Scent blur speed"));
 		
 		params = (Param[]) arrayQueue.toArray(new Param[arrayQueue.size()]);

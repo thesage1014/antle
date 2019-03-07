@@ -25,4 +25,7 @@ public class AntleEventManager {
 		}
 
 	}
+	public static void resetMap() {
+		
+	}
 }

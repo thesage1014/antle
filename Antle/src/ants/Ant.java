@@ -82,5 +82,8 @@ public class Ant extends Entity {
 			l.antRecievedItem(e);
 		}
 	}
+	public void kill() {
+		listeners.clear();
+	}
 	
 }

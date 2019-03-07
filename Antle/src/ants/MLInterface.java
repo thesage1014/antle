@@ -1,5 +1,7 @@
 package ants;
 
+import java.util.Random;
+
 import ants.ml.AntLearningCore;
 import ants.ml.AntStateData;
 import lombok.Data;
@@ -11,6 +13,7 @@ public class MLInterface {
 	@Getter
 	AntsPanel panel;
 	AntLearningCore antLearningCore;
+	public static Random rand;
 	public MLInterface(AntsPanel inpanel) {
 		panel = inpanel;
 		// Call prepare scene for ML
@@ -19,19 +22,25 @@ public class MLInterface {
 		tickThread.attachMLInterface(this);
 		// Initialize rl4j
 		antLearningCore = new AntLearningCore();
+		rand = new Random(antLearningCore.RANDOM_SEED);
 		// Begin step()ping
 		antLearningCore.attachNewBrain(this);
 	}
 	public static final AntStateData buildDummyState() {
-		return new AntStateData(new double[AntML.stateScanSize*AntML.stateScanSize],0,false,0);
+		double[] dummyObvs = new double[AntML.stateScanSize*AntML.stateScanSize];
+		for(int i=0; i<dummyObvs.length; i++) {
+			dummyObvs[i] = rand.nextInt(6);
+		}
+		return new AntStateData(dummyObvs ,0,false,0);
 	}
-	public AntStateData step(Integer a) {
-		panel.ps.debugAnt.SetAction(a);
+	public AntStateData mlStep(Integer a) {
+		panel.ps.debugAnt.mlStep(a);
 		tickThread.step();
 		AntStateData state = panel.ps.debugAnt.buildMLState();
 		return state;
 	}
 	public AntStateData reset() {
+		panel.restart();
 		return buildDummyState();
 	}
 }

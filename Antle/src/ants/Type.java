@@ -1,6 +1,7 @@
 package ants;
 
 import java.awt.Color;
+import java.util.HashMap;
 
 
 public abstract class Type {

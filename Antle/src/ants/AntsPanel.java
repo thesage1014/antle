@@ -12,6 +12,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.image.BufferedImage;
+import java.util.EventListener;
 import java.util.Vector;
 
 import javax.swing.JPanel;
@@ -50,7 +52,15 @@ public final class AntsPanel extends JPanel implements Tickable, MouseListener, 
 			g.drawImage(map.getScentImage(), 0, 0, ps.displayW.i(), ps.displayH.i(), this);
 		} else {
 			Graphics2D g2 = (Graphics2D)g;
-			g2.drawImage(map.getImage(), 0, 0, ps.displayW.i(), ps.displayH.i(), this);
+			BufferedImage mapBuffer = map.getImage();
+			if(mapBuffer.getWidth() != 1) {				
+				g2.drawImage(mapBuffer, 0, 0, ps.displayW.i(), ps.displayH.i(), this);
+			} else {
+				g2.setColor(Color.BLACK);
+				g2.drawString("Initializing rl4j...  DL4J UI Server starting at http://localhost:9000", ps.displayW.i()/5*3, ps.displayH.i()/2);
+				g2.drawString("R - restart", ps.displayW.i()/5*3, ps.displayH.i()/2+25);
+				g2.drawString("Space - hide gui", ps.displayW.i()/5*3, ps.displayH.i()/2+38);
+			}
 			Composite tempComposite = g2.getComposite();
 //			g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC);
 			g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);
@@ -86,9 +96,13 @@ public final class AntsPanel extends JPanel implements Tickable, MouseListener, 
 		return null;
 	}
 	
-	private void restart() {
+	public void restart() {
 		map.kill();
+		AntleEventManager.resetMap();
 		map = new AntsMap(ps.mapW.i(),ps.mapH.i(),this);
+		if(ps.useMachineLearning.bool()) {
+			ps.debugAnt = map.colonies.get(0).spawnMLAnt();
+		}
 	}
 
 	@Override

@@ -169,6 +169,9 @@ public final class AntsMap {
 
 	public boolean attackBlock(int x, int y, Entity eroder) { //Returns if a block was broken
 		Type blockType = tileMap[x][y].getType();
+		if(blockType == TileTypes.FOOD && pSM.getGlobal().useMachineLearning.bool()) {
+			pSM.getGlobal().debugAnt.AddReward(10, this);
+		}
 		if(blockType.isBreakable) {
 			int erodeAmount = rand.nextInt(pSM.getGlobal().erosionPerStep.i())+1;
 			if(getErosion(x, y) + erodeAmount >= blockType.maxHealth) {
@@ -197,6 +200,7 @@ public final class AntsMap {
 		for(int i=0; i<colonies.size(); i++) {
 			colonies.get(i).kill();
 		}
+		colonies.clear();
 	}
 
 	void tick() {
