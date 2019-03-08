@@ -32,7 +32,6 @@ public class AntMDP implements MDP<AntStateData, Integer, DiscreteSpace> {
 
 	@Override
 	public AntStateData reset() {
-		System.out.println("reset");
 		return antState = mlInterface.reset();
 	}
 

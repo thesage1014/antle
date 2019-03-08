@@ -2,7 +2,7 @@ package ants.ai;
 
 import ants.*;
 
-public class Job implements AntListener {
+public abstract class Job implements AntListener {
 	public String name;
 	public MovementManager moveManager;
 	public JobManager jobManager;
@@ -13,35 +13,16 @@ public class Job implements AntListener {
 		inant.addAntListener(this);
 		moveManager = new MoverStandStill(inant);
 	}
+	
 	@Override
-	public void antMoved(EventAntMoved e) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void antMoved(EventAntMoved e) {}
 	@Override
-	public void antCreated(EventAntCreated e) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void antCreated(EventAntCreated e) {}
 	@Override
-	public void antDestroyed(EventAntDestroyed e) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void antDestroyed(EventAntDestroyed e) {}
 	@Override
-	public void antFoundFriendInNeed(EventAntFoundFriendInNeed e) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void antRecievedItem(EventAntRecievedItem e) {}
 	@Override
-	public void antRecievedItem(EventAntRecievedItem e) {
-		// TODO Auto-generated method stub
-		
-	}
-	@Override
-	public void antChangedJobs(EventAntJobChanged e) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void antChangedJobs(EventAntJobChanged e) {}
 	
 }

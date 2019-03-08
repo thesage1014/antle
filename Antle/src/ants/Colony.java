@@ -5,7 +5,7 @@ import java.util.Random;
 import java.util.Vector;
 
 import ants.ai.JobCollectFood;
-import ants.ai.JobML;
+import ants.ml.JobML;
 
 public class Colony {
 	ParamSetManager pSM;

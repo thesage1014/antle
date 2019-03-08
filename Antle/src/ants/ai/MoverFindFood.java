@@ -10,7 +10,7 @@ public class MoverFindFood extends MovementManager {
 		
 	}
 	@Override
-	boolean beMoved() {
+	protected boolean managedMove() {
 		Tile[] foodScan = scanForType(TileTypes.FOOD.ID);
 		if(foodScan.length != 0) {
 			Tile target = foodScan[rand.nextInt(foodScan.length)];

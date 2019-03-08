@@ -11,7 +11,7 @@ public class MoverReturnHome extends MovementManager {
 		super(inant);
 	}
 	@Override
-	boolean beMoved() {
+	protected boolean managedMove() {
 		// Code modified from MovementManager
 		int antx = ant.tile.x;
 		int anty = ant.tile.y;

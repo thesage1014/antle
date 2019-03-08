@@ -6,10 +6,10 @@ import java.util.Vector;
 import ants.*;
 
 public abstract class MovementManager {
-	Ant ant;
-	Colony colony;
-	AntsMap map;
-	Random rand;
+	protected Ant ant;
+	protected Colony colony;
+	protected AntsMap map;
+	protected Random rand;
 	float[][] DEBUGscentMap = new float[5][5];
 
 	public MovementManager(Ant inant) {
@@ -18,63 +18,28 @@ public abstract class MovementManager {
 		map = colony.map;
 		rand = new Random();
 	}
-
+	/** Move Tick
+ 	@return returns weather or not move was successful */
 	public final boolean move() {
 		Tile tile = ant.tile;
-		boolean moved = beMoved();
+		boolean moved = managedMove();
 		if (moved) {
 			ant.raiseEvent(new EventAntMoved(this, ant, tile));
 		}
 		return moved;
 	}
-	/**
-	 * Move Tick
-	 * @return returns weather or not move was successful
+	/** Move Tick
+	 	@return returns weather or not move was successful */
+	protected abstract boolean managedMove();
+	
+	/** Admittedly janky for now
+	 * @return Returns a float[6][5] with the values of the given scent. Highest and lowest tiles are stored in scan[5][0](highest) ... scan[5][1](lowest)
 	 */
-	abstract boolean beMoved();
-//	public boolean canMove(int x, int y) {
-//		return false;
-//	}
-//	LocalScanResults scanAdjacentTiles() { // Remove eventually if unused
-//		LocalScanResults scan = new LocalScanResults();
-//		boolean[] passable = new boolean[8];
-//		int passableSpaces = 0;
-//		for (int i=0; i<8; i++) {
-//			Type tileType = map.get(Util.dirs8[i*2]+ant.tile.x, Util.dirs8[i*2+1]+ant.tile.y).getType();
-//			if (tileType == Types.EMPTY) {
-//				passable[i] = true;
-//				passableSpaces++;
-//			} else if (tileType == Types.FOOD) {
-//				scan.foodCount++;
-//			} else if (tileType == Types.DIRT) {
-//				scan.dirtCount++;
-//			} else if (tileType == Types.ANT) {
-//				scan.antCount++;
-//			}
-//			if (tileType.isBreakable) {
-//				scan.breakableCount++;
-//			}
-//		}
-//		scan.passableCount = passableSpaces;
-//		int[] isPassable = new int[passableSpaces];
-//		if(passableSpaces != 0) {
-//			int curIsIndex = 0;
-//			for(int i=0; i<8; i++) {
-//				if(passable[i]) {
-//					isPassable[curIsIndex] = i*2;
-//					curIsIndex++;
-//				}
-//			}
-//		}
-//		scan.passables = isPassable;
-//		return scan;
-//	}
-
 	Float3D[][] scanForScent() {
 		int antx = ant.tile.x;
 		int anty = ant.tile.y;
-		Float3D[][] scan = new Float3D[6][5]; // Highest and lowest tiles are stored in the very right column
-
+		Float3D[][] scan = new Float3D[6][5]; // 
+		
 		Vector<Float3D> highests = new Vector<Float3D>();
 		Vector<Float3D> lowests = new Vector<Float3D>();
 		Float3D highest = new Float3D(-1, -1, -1);
@@ -140,31 +105,8 @@ public abstract class MovementManager {
 		tiles.toArray(result);
 		return result;
 	}
-
-	int[] oldScanForType(int inType) { // Returns an array of indexes that correspond to x values in Util.dirs8. Y
-										// values are index+1
-		boolean[] passable = new boolean[8];
-		int passableSpaces = 0;
-		for (int i = 0; i < 8; i++) {
-			if (map.get(Util.dirs8[i * 2] + ant.tile.x, Util.dirs8[i * 2 + 1] + ant.tile.y).getType().ID == inType) {
-				passable[i] = true;
-				passableSpaces++;
-			}
-		}
-		int[] isPassable = new int[passableSpaces];
-		if (passableSpaces != 0) {
-			int curIsIndex = 0;
-			for (int i = 0; i < 8; i++) {
-				if (passable[i]) {
-					isPassable[curIsIndex] = i * 2;
-					curIsIndex++;
-				}
-			}
-		}
-		return isPassable;
-	}
-
-	boolean moveTowards(int dx, int dy) {
+	/** Returns weather or not the move was successful*/
+	protected boolean moveTowards(int dx, int dy) {
 //		double ang = Math.atan2(ant.tile.x-dx, ant.tile.y-dy);
 //		int x = (int) Math.min(Math.max(Math.round(Math.cos(ang))*1.5,1),-1)+ant.tile.x;
 //		int y = (int) Math.min(Math.max(Math.round(Math.sin(ang))*1.5,1),-1)+ant.tile.y;
@@ -172,11 +114,10 @@ public abstract class MovementManager {
 		int y = (Math.min(Math.max(dy - ant.tile.y, -1), 1)) + ant.tile.y;
 		return tryMove(x, y);
 	}
-
-	boolean tryMove(int dx, int dy) { // Returns weather or not the move was successful
+	/** Returns weather or not the move was successful*/
+	boolean tryMove(int dx, int dy) { 
 		int x = ant.tile.x;
 		int y = ant.tile.y;
-//		System.out.println(Math.abs(x-dx) + " " + dx + " " + x + " " + Math.abs(y-dy) + " " + dy + " " + y);
 		if (Math.abs(x - dx) <= 1 && Math.abs(y - dy) <= 1) {
 			if (map.get(dx, dy).getType() == TileTypes.EMPTY) {
 				if (map.get(dx, dy).setToEntity(ant)) {
@@ -186,7 +127,7 @@ public abstract class MovementManager {
 			}
 			map.attackBlock(dx, dy, ant);
 		} else {
-			System.out.println(x + " " + (x - dx) + " | " + y + " " + (y - dy));
+			System.out.println("Illegal block move attempted at" + x + " " + (x - dx) + " | " + y + " " + (y - dy));
 		}
 		return false;
 	}

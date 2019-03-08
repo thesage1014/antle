@@ -1,6 +1,8 @@
-package ants.ai;
+package ants.ml;
 
 import ants.*;
+import ants.ai.EventAntRecievedItem;
+import ants.ai.Job;
 
 public class JobML extends Job {
 	public JobML(Ant inant) {

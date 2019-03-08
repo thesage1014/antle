@@ -14,7 +14,6 @@ public class Ant extends Entity {
 	public Colony colony;
 	public Scent scent;
 	public float scentValue = 2;
-	public boolean isBeingAssisted = false, needsAssistance = false;
 	
 	public Ant(Tile intile, Colony incolony) {
 		super(intile, incolony.map, TileTypes.ANT);
@@ -60,11 +59,6 @@ public class Ant extends Entity {
 	public void raiseEvent(EventAntDestroyed e) {
 		for(AntListener l : listeners) {
 			l.antDestroyed(e);
-		}
-	}
-	public void raiseEvent(EventAntFoundFriendInNeed e) {
-		for(AntListener l : listeners) {
-			l.antFoundFriendInNeed(e);
 		}
 	}
 	public void raiseEvent(EventAntJobChanged e) {

@@ -1,8 +1,7 @@
-package ants.ai;
+package ants.ml;
 
-import ants.Ant;
-import ants.AntML;
-import ants.Vector2i;
+import ants.*;
+import ants.ai.*;
 
 public class MoverMachineLearning extends MovementManager {
 	boolean movedLastTick = false;
@@ -18,7 +17,7 @@ public class MoverMachineLearning extends MovementManager {
 	}
 
 	@Override
-	boolean beMoved() {
+	protected boolean managedMove() {
 		Integer a = antML.GetAction();
 		Vector2i dir = intToDirectionGrid[a];
 		return moveTowards(ant.tile.x+dir.x, ant.tile.y+dir.y);

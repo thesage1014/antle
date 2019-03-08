@@ -10,7 +10,7 @@ public class MoverStandStill extends MovementManager {
 	}
 
 	@Override
-	boolean beMoved() {
+	protected boolean managedMove() {
 		// TODO Auto-generated method stub
 		return false;
 	}

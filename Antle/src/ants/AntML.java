@@ -1,7 +1,7 @@
 package ants;
 
-import ants.ai.JobML;
 import ants.ml.AntStateData;
+import ants.ml.JobML;
 
 public class AntML extends Ant {
 	Integer action;

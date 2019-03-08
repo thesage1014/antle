@@ -17,14 +17,7 @@ public abstract class Entity {
 		type = intype;
 		tile = intile;
 		tile.setToEntity(this);
-//		System.out.println(uniqueID + " " + Types.get(blockID).ID);
 	}
-//	public void moveEntity(int inx, int iny) {
-//		System.out.println("moved");
-//		tile.setToEntity(null);
-//		tile = map.get(inx, iny);
-//		map.get(inx, iny).setToEntity(this);
-//	}
 	public boolean moveEntity() { // Returns weather successful
 		return false;
 	}

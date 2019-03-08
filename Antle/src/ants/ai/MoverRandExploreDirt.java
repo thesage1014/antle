@@ -12,7 +12,7 @@ public class MoverRandExploreDirt extends MovementManager {
 		super(inant);
 	}
 	
-	boolean beMoved() {
+	protected boolean managedMove() {
 		Random rand = new Random();
 		int dirIndex = rand.nextInt(8)*2;
 		int dirx = Util.dirs8[dirIndex];

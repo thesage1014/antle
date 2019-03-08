@@ -2,6 +2,8 @@ package ants;
 
 import java.util.Vector;
 
+import ants.ml.InitMLListener;
+
 public class AntleEventManager {
 	Vector<InitMLListener> initMLListeners;
 	public void raiseInitMLEvent(MLInterface source) {
