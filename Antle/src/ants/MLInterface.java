@@ -11,10 +11,11 @@ public class MLInterface {
 	@Getter
 	TickThread tickThread;
 	@Getter
-	AntsPanel panel;
+	AntlePanel panel;
 	AntLearningCore antLearningCore;
 	public static Random rand;
-	public MLInterface(AntsPanel inpanel) {
+	/** Sits above both AntsPanel(game) and AntLearningCore, handling interaction between them */
+	public MLInterface(AntlePanel inpanel) {
 		panel = inpanel;
 		// Call prepare scene for ML
 		panel.ps.debugEventManager.raiseInitMLEvent(this);
@@ -33,12 +34,14 @@ public class MLInterface {
 		}
 		return new AntStateData(dummyObvs ,0,false,0);
 	}
+	/** trigger main game step from machine learning */
 	public AntStateData mlStep(Integer a) {
 		panel.ps.debugAnt.mlStep(a);
 		tickThread.step();
 		AntStateData state = panel.ps.debugAnt.buildMLState();
 		return state;
 	}
+	/** Called at the end of each batch */
 	public AntStateData reset() {
 		panel.restart();
 		return buildDummyState();

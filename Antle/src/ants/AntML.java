@@ -13,7 +13,7 @@ public class AntML extends Ant {
 	}
 	public AntStateData buildMLState() {
 		mLSteps++;
-		AntsMap map = colony.map;
+		AntleMap map = colony.map;
 		double[] values = new double[stateScanSize * stateScanSize];
 		int x = 0;
 		for(int i=-stateScanSize/2;i<=stateScanSize/2;i++) {

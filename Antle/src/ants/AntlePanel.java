@@ -21,19 +21,19 @@ import javax.swing.event.MouseInputListener;
 
 import ants.ml.AntStateData;
 
-public final class AntsPanel extends JPanel implements Tickable, MouseListener, KeyEventDispatcher, ParamSetManager {
-	AntsMap map;
+public final class AntlePanel extends JPanel implements Tickable, MouseListener, KeyEventDispatcher, ParamSetManager {
+	AntleMap map;
 	TickThread tickThread, renderThread;
 	ParamSetGlobal ps;
 	Vector<ParamSet> paramSets;
 	UIBuilder ui;
 	boolean showingHeatmap = false;
 	private int recentTicks = 0;
-	public AntsPanel(ParamSetGlobal inParams) {
+	public AntlePanel(ParamSetGlobal inParams) {
 		paramSets = new Vector<ParamSet>();
 		paramSets.add(inParams);
 		ps = (ParamSetGlobal)paramSets.get(0);
-		map = new AntsMap(ps.mapW.i(),ps.mapH.i(), this);
+		map = new AntleMap(ps.mapW.i(),ps.mapH.i(), this);
 		ui = new UIBuilder(this);
 		tickThread = new TickThread(this, ps.playSpeed.i(), Tickable.GAME, ps);
 		renderThread = new TickThread(this, ps.renderTickDelay.i(), Tickable.RENDER,ps);
@@ -47,7 +47,6 @@ public final class AntsPanel extends JPanel implements Tickable, MouseListener, 
 	}
 	
 	public void paint(Graphics g) {
-//		super.paint(g);
 		if(showingHeatmap) {
 			g.drawImage(map.getScentImage(), 0, 0, ps.displayW.i(), ps.displayH.i(), this);
 		} else {
@@ -60,17 +59,14 @@ public final class AntsPanel extends JPanel implements Tickable, MouseListener, 
 				g2.drawString("Initializing rl4j...  DL4J UI Server starting at http://localhost:9000", ps.displayW.i()/5*3, ps.displayH.i()/2);
 				g2.drawString("R - restart", ps.displayW.i()/5*3, ps.displayH.i()/2+25);
 				g2.drawString("Space - hide gui", ps.displayW.i()/5*3, ps.displayH.i()/2+38);
+				g2.drawString("Right Click - show scent map", ps.displayW.i()/5*3, ps.displayH.i()/2+51);
 			}
 			Composite tempComposite = g2.getComposite();
-//			g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC);
 			g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);
-//			g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, .1f));
-//			g2.drawImage(map.getHeatImage(), 0, 0, ps.displayW.i(), ps.displayH.i(), this);
 			g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, .7f));
 			ui.paint(g);
 			g2.setComposite(tempComposite);
 		}
-		
 	}
 
 	@Override
@@ -99,7 +95,7 @@ public final class AntsPanel extends JPanel implements Tickable, MouseListener, 
 	public void restart() {
 		map.kill();
 		AntleEventManager.resetMap();
-		map = new AntsMap(ps.mapW.i(),ps.mapH.i(),this);
+		map = new AntleMap(ps.mapW.i(),ps.mapH.i(),this);
 		if(ps.useMachineLearning.bool()) {
 			ps.debugAnt = map.colonies.get(0).spawnMLAnt();
 		}

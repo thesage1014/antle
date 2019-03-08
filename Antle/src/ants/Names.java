@@ -2,8 +2,9 @@ package ants;
 
 import java.util.Random;
 import java.util.Vector;
-
+/** these are a bunch of bands I liked in 2013 haha */
 public class Names {
+	
 	static final String[] names = new String[]{
 		"Groundation",
 		"Sufjan Stevens",

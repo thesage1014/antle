@@ -11,13 +11,13 @@ public class Colony {
 	ParamSetManager pSM;
 	public ParamSetColony colonyParams;
 	Vector<Ant> ants;
-	public AntsMap map;
+	public AntleMap map;
 	public int[] color;
 	public String name;
 	public Scent scent;
 	public int x, y;
 
-	public Colony(ParamSetManager inpSM, int inx, int iny, String inname, AntsMap inmap, int[] incolor,
+	public Colony(ParamSetManager inpSM, int inx, int iny, String inname, AntleMap inmap, int[] incolor,
 			int inscentIndex) {
 		pSM = inpSM;
 		name = inname;

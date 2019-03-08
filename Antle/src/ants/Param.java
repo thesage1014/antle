@@ -1,5 +1,6 @@
 package ants;
 
+/** A configurable setting */
 public class Param {
 	public static final int SLIDER = 0, TOGGLE = 1, LIST = 2, BUTTON = 3; // option types
 	public String name = "Unnamed";

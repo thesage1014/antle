@@ -12,7 +12,6 @@ public class AntStateData implements Encodable {
 	
 	@Override
 	public double[] toArray() {
-		// TODO Auto-generated method stub
 		return values;
 	}
 

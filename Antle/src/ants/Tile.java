@@ -2,6 +2,7 @@ package ants;
 
 import java.awt.Color;
 
+/** One square in the game world */
 public class Tile {
 	public int x, y;
 	public Color color;
@@ -20,7 +21,9 @@ public class Tile {
 		type = intype;
 		setToEntity(null);
 		resetColor();
-//		System.out.println(entity);
+	}
+	public void setTo(Entity e) {
+		setToEntity(e);
 	}
 	public Type getType() {
 		return type;
@@ -28,7 +31,6 @@ public class Tile {
 	public boolean setToEntity(Entity e) {
 		if(!type.isEntity) {
 			entity = e;
-//			System.out.println(e);
 			if(e == null) {
 				entity = null;
 			} else {
@@ -38,7 +40,7 @@ public class Tile {
 			
 			return true; 
 		} else {
-			System.out.println("UNABLE TO SET " + this.toString() + "to" + e + " // " + entity + " -- Can't move?");
+			System.out.println("UNABLE TO SET " + this.toString() + "to" + e + " // " + entity + " -- Not entity?");
 			return false;
 		}
 	}

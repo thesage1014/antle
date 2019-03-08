@@ -8,10 +8,10 @@ import ants.*;
 public abstract class MovementManager {
 	protected Ant ant;
 	protected Colony colony;
-	protected AntsMap map;
+	protected AntleMap map;
 	protected Random rand;
 	float[][] DEBUGscentMap = new float[5][5];
-
+	/** Handles ant movement each tick. move() is called by the JobManager */
 	public MovementManager(Ant inant) {
 		ant = inant;
 		colony = inant.colony;
@@ -19,7 +19,7 @@ public abstract class MovementManager {
 		rand = new Random();
 	}
 	/** Move Tick
- 	@return returns weather or not move was successful */
+ 	@return weather or not move was successful */
 	public final boolean move() {
 		Tile tile = ant.tile;
 		boolean moved = managedMove();
@@ -29,11 +29,11 @@ public abstract class MovementManager {
 		return moved;
 	}
 	/** Move Tick
-	 	@return returns weather or not move was successful */
+	 	@return  weather or not move was successful */
 	protected abstract boolean managedMove();
 	
 	/** Admittedly janky for now
-	 * @return Returns a float[6][5] with the values of the given scent. Highest and lowest tiles are stored in scan[5][0](highest) ... scan[5][1](lowest)
+	 * @return a float[6][5] with the values of the given scent. Highest and lowest tiles are stored in scan[5][0](highest) ... scan[5][1](lowest)
 	 */
 	Float3D[][] scanForScent() {
 		int antx = ant.tile.x;
@@ -105,7 +105,7 @@ public abstract class MovementManager {
 		tiles.toArray(result);
 		return result;
 	}
-	/** Returns weather or not the move was successful*/
+	/** @return weather or not the move was successful*/
 	protected boolean moveTowards(int dx, int dy) {
 //		double ang = Math.atan2(ant.tile.x-dx, ant.tile.y-dy);
 //		int x = (int) Math.min(Math.max(Math.round(Math.cos(ang))*1.5,1),-1)+ant.tile.x;
@@ -114,7 +114,7 @@ public abstract class MovementManager {
 		int y = (Math.min(Math.max(dy - ant.tile.y, -1), 1)) + ant.tile.y;
 		return tryMove(x, y);
 	}
-	/** Returns weather or not the move was successful*/
+	/** @return weather or not the move was successful*/
 	boolean tryMove(int dx, int dy) { 
 		int x = ant.tile.x;
 		int y = ant.tile.y;

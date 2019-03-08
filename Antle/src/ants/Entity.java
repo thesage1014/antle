@@ -9,8 +9,8 @@ public abstract class Entity {
 	public long uniqueID;
 	public Type type;
 	public Tile tile;
-	AntsMap map;
-	public Entity(Tile intile, AntsMap inmap, Type intype) {
+	AntleMap map;
+	public Entity(Tile intile, AntleMap inmap, Type intype) {
 		inv = new Inventory();
 		uniqueID = lastUniqueID++;
 		map = inmap;

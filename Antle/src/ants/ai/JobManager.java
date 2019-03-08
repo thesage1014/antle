@@ -1,7 +1,7 @@
 package ants.ai;
 
 import ants.Ant;
-
+/** Most importantly callse moveAnt() */
 public class JobManager {
 	Job job, lastJob;
 	public JobManager(Ant inant) {

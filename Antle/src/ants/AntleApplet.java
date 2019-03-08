@@ -10,13 +10,13 @@ import java.awt.event.KeyListener;
 
 import javax.swing.JApplet;
 
-public final class AntsApplet extends JApplet {
-	AntsPanel panel;
+/** @deprecated use StartGame */
+public final class AntleApplet extends JApplet {
+	AntlePanel panel;
 	ParamSetGlobal params;
 	public void init() {
-		// TODO Make and load config file for parameter overrides
 		params = new ParamSetGlobal();
-		panel = new AntsPanel(params);
+		panel = new AntlePanel(params);
 		setBackground(Color.BLACK);
 		KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(panel);
 		add(panel);

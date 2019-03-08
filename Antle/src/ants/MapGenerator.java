@@ -10,7 +10,7 @@ public class MapGenerator {
 	public MapGenerator() {
 		
 	}
-	public void generateEarlyTestMap(AntsMap map, ParamSetManager inpSM) {
+	public void generateEarlyTestMap(AntleMap map, ParamSetManager inpSM) {
 		Random rand = new Random();
 		map.colonies = new Vector<Colony>();
 		ParamSetGlobal ps = inpSM.getGlobal();
@@ -54,10 +54,12 @@ public class MapGenerator {
 			int distX = map.w/(inpSM.getGlobal().numColonies.i()+1)*(i+1);
 			map.addColony(inpSM, distX, map.h, Names.getName(), new int[] {rand.nextInt(255),rand.nextInt(50),rand.nextInt(255)}); // TODO Ant indexes need to be applied properly in the map
 			Colony colony = map.colonies.get(i);
-			for(int x=distX-antSpawnBoxSize/2;x<distX+antSpawnBoxSize/2;x++) {
-				for(int y=colony.y+4-antSpawnBoxSize/2;y<colony.y+4+antSpawnBoxSize/2;y++) {
-//					if(map.InBounds(x, y) && map.get(x, y).getType() != TileTypes.PERMANENT)
-//						colony.addAnt(x,y);
+			if(!ps.useMachineLearning.bool()) {
+				for(int x=distX-antSpawnBoxSize/2;x<distX+antSpawnBoxSize/2;x++) {
+					for(int y=colony.y+4-antSpawnBoxSize/2;y<colony.y+4+antSpawnBoxSize/2;y++) {
+						if(map.InBounds(x, y) && map.get(x, y).getType() != TileTypes.PERMANENT)
+							colony.addAnt(x,y);
+					}
 				}
 			}
 //			Ant stinkyAnt = colony.ants.get(0);

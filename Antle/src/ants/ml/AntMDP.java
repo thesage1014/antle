@@ -30,16 +30,22 @@ public class AntMDP implements MDP<AntStateData, Integer, DiscreteSpace> {
 		mlInterface = mli;
 	}
 
+	/** Called after every batch has ended */
 	@Override
 	public AntStateData reset() {
 		return antState = mlInterface.reset();
 	}
 
+	/** Called at the end of training */
 	@Override
 	public void close() {
 		log.info("closed");
 	}
 
+	/**
+	 * Sends the game engine an action, which returns an observation and reward
+	 * after it simulates a frame
+	 */
 	public StepReply<AntStateData> step(Integer a) {
 		antState = mlInterface.mlStep(a);
 		if (antState == null) {

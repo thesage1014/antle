@@ -1,4 +1,7 @@
 package ants;
+
+// TODO eep, totally unlicensed. Need to find other noise
+
 //JAVA REFERENCE IMPLEMENTATION OF IMPROVED NOISE - COPYRIGHT 2002 KEN PERLIN.
 public class KenPerlin {
 	static public double noise(double x, double y, double z) {

@@ -2,6 +2,7 @@ package ants.ai;
 
 import ants.*;
 
+/** Job system was planned before implementing ML. Potentially useless now? We could hook up the Action to different jobs instead of movements */
 public abstract class Job implements AntListener {
 	public String name;
 	public MovementManager moveManager;

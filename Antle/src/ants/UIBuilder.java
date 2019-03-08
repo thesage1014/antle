@@ -13,14 +13,11 @@ import java.util.Vector;
 import javax.swing.event.MouseInputListener;
 
 public class UIBuilder implements MouseInputListener, MouseWheelListener, KeyEventDispatcher {
-//	GlobalParamSet ps;
-//	Vector<ParamSet> paramSets;
 	ParamSetManager pSM;
 	int currentParamSet=0, psPanelScrollY=0, psPanelScrollYTarget=0;
 	boolean mouseDown = false, showingMenu = true;
 	public UIBuilder(ParamSetManager inparamSetHandler) {
 		pSM = inparamSetHandler;
-//		ps = inPs;
 	}
 	
 	public void paint(Graphics g) {

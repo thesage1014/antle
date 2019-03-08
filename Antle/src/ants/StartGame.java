@@ -13,7 +13,7 @@ import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 
 public final class StartGame extends JFrame {
-	AntsPanel panel;
+	AntlePanel panel;
 	ParamSetGlobal params;
 	public StartGame() {
 		params = new ParamSetGlobal();
@@ -25,7 +25,7 @@ public final class StartGame extends JFrame {
 		InitPanel();
 	}
 	void InitPanel() {
-		panel = new AntsPanel(params);
+		panel = new AntlePanel(params);
 		if(params.useMachineLearning.bool()) {
 			MLInterface mli = new MLInterface(panel);
 			mli.tickThread = panel.tickThread; // TODO initialize better
