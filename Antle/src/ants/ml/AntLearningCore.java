@@ -33,8 +33,8 @@ public class AntLearningCore implements Runnable {
 	public final int RANDOM_SEED = 123;
 	public final QLearning.QLConfiguration ANT_CONFIG = new QLearning.QLConfiguration(RANDOM_SEED, // Random seed
 			10000, // Max step By epoch
-			8000000, // Max step
-			1000000, // Max size of experience replay
+			10000, // Max step
+			2000, // Max size of experience replay
 			32, // size of batches
 			10000, // target update (hard)
 			500, // num step noop warmup
@@ -72,18 +72,21 @@ public class AntLearningCore implements Runnable {
 
 			QLearningDiscreteDense<AntStateData> dql = new QLearningDiscreteDense<AntStateData>(mdp, antNet, ANT_CONFIG,
 					manager);
+			// Try loading a previously trained model
 			try {
-				// Not sure this is actually doing anything useful? Learned behavior isn't
-				// necessarily sticking
 				DQNPolicy<AntStateData> loadedPol = DQNPolicy.load("test.pol");
 				dql.setTargetDQN(loadedPol.getNeuralNet());
 				log.info("Loaded found policy with " + loadedPol.getNeuralNet().getLatestScore() + " latest score");
+				log.info("Playing 100 times from loaded policy");
+				for (int i = 0; i < 100; i++) {
+					loadedPol.play(mdp, dql.getHistoryProcessor());
+				}
+				log.info("Done playing");
 			} catch (IOException e) {
 				log.info("Unable to load policy. Working from scratch");
 			}
 
 			uiServer.attach(statsStorage);
-
 			dql.train();
 			// Serialize and save policy
 			DQNPolicy<AntStateData> pol = dql.getPolicy();

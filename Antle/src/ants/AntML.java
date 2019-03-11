@@ -7,7 +7,7 @@ public class AntML extends Ant {
 	Integer action;
 	double reward=0;
 	int mLSteps = 0;
-	static final int stateScanSize = 5;
+	static final int stateScanSize = 3;
 	public AntML(Tile intile, Colony incolony) {
 		super(intile, incolony);
 	}
@@ -27,7 +27,7 @@ public class AntML extends Ant {
 			x++;
 //			System.out.println();
 		}
-		return new AntStateData(values,mLSteps,mLSteps > 100,reward);
+		return new AntStateData(values,mLSteps,mLSteps > 100,action==3?10000:0);
 	}
 	public void mlStep(Integer a) {
 		action = a;

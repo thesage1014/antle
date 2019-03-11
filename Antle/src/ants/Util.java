@@ -7,9 +7,10 @@ public final class Util {
 	
 	public static final Int2D[] dirs2D = new Int2D[]{new Int2D(1,0),new Int2D(1,1),new Int2D(0,1),new Int2D(-1,0),
 													new Int2D(1,-1),new Int2D(-1,-1),new Int2D(0,-1),new Int2D(-1,1)};
-	/** an array containing all combinations of 1,-1, and 0 starting at the top-left going right */
+	/** an array containing all combinations of 1,-1, and 0 starting at the top-left going right 
+	 *  the center and top left are swapped to make [0] the default for noop() from the action space */
 	public static final Int2D[] dirs92D = new Int2D[]{
-			new Int2D(-1,1),new Int2D(0,1),new Int2D(1,1),
-			new Int2D(-1,0),new Int2D(0,0),new Int2D(1,0),
+			new Int2D(0,0),new Int2D(0,1),new Int2D(1,1),
+			new Int2D(-1,0),new Int2D(-1,1),new Int2D(1,0),
 			new Int2D(-1,-1),new Int2D(0,-1),new Int2D(1,-1)};
 }

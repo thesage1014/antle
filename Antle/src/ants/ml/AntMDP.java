@@ -41,7 +41,7 @@ public class AntMDP implements MDP<AntStateData, Integer, DiscreteSpace> {
 	public void close() {
 		log.info("closed");
 	}
-
+	
 	/**
 	 * Sends the game engine an action, which returns an observation and reward
 	 * after it simulates a frame
